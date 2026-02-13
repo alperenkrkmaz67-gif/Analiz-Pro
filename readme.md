@@ -21,7 +21,7 @@ Projeyi yerel bilgisayarınızda çalıştırmak için:
 
 1. Bu depoyu klonlayın:
    ```bash
-   git clone [https://github.com/kullaniciadi/analizpro.git](https://github.com/kullaniciadi/analizpro.git)
+   git clone [https://github.com/alperenkrkmaz67/analizpro.git](https://github.com/kullaniciadi/analizpro.git)
    
 2. Proje klasörüne gidin:
 
