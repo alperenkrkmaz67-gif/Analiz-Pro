@@ -26,9 +26,11 @@ Projeyi yerel bilgisayarınızda çalıştırmak için:
 2. Proje klasörüne gidin:
 
 cd analizpro
+
 index.html dosyasını tarayıcınızda açın.
 
 📈 Gelecek Planları
+
 [ ] Kullanıcılar için özelleştirilmiş dashboard ekranları.
 
 [ ] Daha fazla veri kaynağı entegrasyonu.
