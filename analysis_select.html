@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analiz Türü Seçimi - Analiz Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #main-selection-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .selection-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            width: 280px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .selection-card:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            #main-selection-screen {
+                padding: 1rem;
+                justify-content: center;
+                overflow-y: auto;
+            }
+
+            #cards-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem !important;
+                width: 100%;
+            }
+
+            .selection-card {
+                width: 100% !important;
+                max-width: 320px;
+                padding: 1.5rem !important;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="excelLoader.js?v=2"></script>
+    <script src="db.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <nav style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                <!-- Back Button -->
+                <a href="index.html" class="btn btn-outline"
+                    style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    ← Ana Sayfa
+                </a>
+
+                <!-- Logo -->
+                <a href="index.html" class="logo"
+                    style="font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    Analiz Pro
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="main-selection-screen">
+        <div style="text-align:center;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: white;">Analiz Türü Seçimi</h1>
+            <p style="color: #94a3b8; font-size: 1.1rem;">Lütfen yapmak istediğiniz analiz türünü seçin.</p>
+        </div>
+
+        <div id="cards-container" style="display:flex; gap:2rem; flex-wrap:wrap; justify-content:center;">
+            <!-- Closing Odds Option -->
+            <div class="selection-card" onclick="goToAnalysis('closing')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                <h3 style="color: white; margin: 0;">Kapanış Oranları</h3>
+            </div>
+
+            <!-- Opening Odds Option -->
+            <div class="selection-card" onclick="goToAnalysis('opening')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📈</div>
+                <h3 style="color: white; margin: 0;">Açılış Oranları</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase & Auth Scripts needed for header -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+    <script src="auth.js"></script>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            const body = document.body;
+            const isActive = nav.classList.contains('nav-active');
+
+            if (isActive) {
+                nav.classList.remove('nav-active');
+                body.classList.remove('nav-open');
+            } else {
+                nav.classList.add('nav-active');
+                body.classList.add('nav-open');
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (nav && nav.classList.contains('nav-active')) {
+                if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                    toggleMenu();
+                }
+            }
+        });
+
+        async function goToAnalysis(type) {
+            // Restore data first to check if available
+            if (!ExcelLoader.hasClosing() && !ExcelLoader.hasOpening()) {
+                await ExcelLoader.restoreFromIndexedDB();
+            }
+
+            if (type === 'closing') {
+                if (!ExcelLoader.hasClosing()) {
+                    alert('Kapanış verisi yüklü değil! Lütfen önce veriyi yükleyin.');
+                    return;
+                }
+                window.location.href = 'dedicated_analysis.html?tab=iy_gol';
+            } else if (type === 'opening') {
+                if (!ExcelLoader.hasOpening()) {
+                    alert('Açılış verisi yüklü değil! Lütfen önce veriyi yükleyin.');
+                    return;
+                }
+                window.location.href = 'opening_analysis.html';
+            }
+        }
+
+        // Auto-restore on load just in case
+        document.addEventListener('DOMContentLoaded', async () => {
+            await ExcelLoader.restoreFromIndexedDB();
+            // Auth check is handled by auth.js automatically
+            Auth.checkAuth();
+        });
+    </script>
+</body>
+
+</html>

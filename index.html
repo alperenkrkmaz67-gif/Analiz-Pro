@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="description" content="Analiz Pro - Profesyonel Futbol İstatistik ve Oran Analiz Platformu.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Analiz Pro">
+    <title>Analiz Pro - Futbol Oran Analizi Platformu</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/33/33736.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 3rem;">
+
+                <!-- 1. Logo -->
+                <a href="index.html" class="logo"
+                    style="margin-right: 0; font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Analiz
+                    Pro</a>
+
+                <!-- 2. Nav Menu (Center-ish) -->
+                <div class="desktop-menu" style="display: flex; gap: 0.5rem; margin-right: 0;">
+                    <a href="analysis.html" class="btn btn-outline nav-btn">Filtre</a>
+                    <a href="analysis_select.html" class="btn btn-outline nav-btn">Analiz</a>
+                    <a href="info.html" class="btn btn-outline nav-btn">Bilgilendirme</a>
+                </div>
+
+                <!-- 3. Right Side Actions -->
+                <div class="nav-right" style="display: flex; align-items: center; gap: 1rem;">
+
+                    <!-- VIP -->
+                    <a href="vip.html" class="btn-vip-header desktop-only"
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--primary-color); padding: 0.2rem 0.8rem; border-radius: 6px; color: white; text-decoration: none; height: 100%;">
+                        <span style="color: var(--accent-color); font-size: 0.8rem;">💎</span>
+                        <span style="font-weight: 700; font-size: 0.7rem;">VIP</span>
+                    </a>
+
+                    <!-- Admin Panel -->
+                    <a href="admin.html" id="admin-btn" class="btn btn-primary desktop-only"
+                        style="display: none; padding: 0.5rem 1rem; font-size: 0.85rem;">
+                        Admin Paneli
+                    </a>
+
+                    <!-- Profile -->
+                    <div class="dropdown desktop-only" id="user-dropdown" style="display: none;">
+                        <a href="#" class="btn"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                            <span id="role-badge" class="badge badge-user" style="font-size: 0.65rem;">USER</span>
+                            <span id="username-display"
+                                style="font-weight: 600; color: white; font-size: 0.85rem;">Kullanıcı</span>
+                            <span style="font-size: 0.7rem; color: #94a3b8;">▼</span>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="profile.html">Hesap Bilgileri</a>
+                            <a href="#" onclick="Auth.logout()"
+                                style="border-top: 1px solid var(--glass-border); color: var(--error-color);">Çıkış
+                                Yap</a>
+                        </div>
+                    </div>
+
+                    <!-- Upload Stats (Desktop Only) -->
+                    <div class="data-status-wrapper desktop-only"
+                        style="display: flex; gap: 1rem; align-items: center; margin-left: 0.5rem;">
+                        <input type="file" id="excel-file-input" accept=".xlsx, .xls" style="display: none;">
+
+                        <!-- Closing Data Block -->
+                        <div id="load-closing-btn"
+                            style="cursor: pointer; display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.2); padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
+                            <div style="font-size: 0.7rem; color: #ccc; margin-bottom: 2px;">📊 Kapanış Yükle</div>
+                            <div id="status-closing" style="font-size: 0.75rem; font-weight: bold;">-</div>
+                        </div>
+
+                        <!-- Opening Data Block -->
+                        <div id="load-opening-btn"
+                            style="cursor: pointer; display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.2); padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
+                            <div style="font-size: 0.7rem; color: #ccc; margin-bottom: 2px;">📈 Açılış Yükle</div>
+                            <div id="status-opening" style="font-size: 0.75rem; font-weight: bold;">-</div>
+                        </div>
+                    </div>
+
+                    <!-- Auth Buttons -->
+                    <div class="auth-buttons desktop-only" id="auth-buttons" style="display: flex; gap: 0.5rem;">
+                        <a href="login.html" class="btn btn-outline" style="padding: 0.4rem 1rem;">Giriş</a>
+                        <a href="register.html" class="btn btn-primary" style="padding: 0.4rem 1rem;">Kayıt</a>
+                    </div>
+
+                    <!-- Hamburger -->
+                    <div class="mobile-menu-btn" onclick="toggleMenu()" style="margin-left: 1rem;">
+                        <div class="hamburger-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Mobile Menu Logic -->
+                <ul class="nav-links mobile-nav-list" style="display: none;">
+                    <li class="mobile-only-header">
+                        <h3
+                            style="color:white; border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:1rem;">
+                            Menü</h3>
+                    </li>
+
+                    <!-- Main Navigation -->
+                    <li><a href="analysis.html" class="btn btn-outline" style="width:100%;">Filtre</a></li>
+                    <li><a href="analysis_select.html" class="btn btn-outline" style="width:100%;">Analiz</a></li>
+                    <li><a href="info.html" class="btn btn-outline" style="width:100%;">Bilgilendirme</a></li>
+
+                    <!-- VIP Button - Always visible -->
+                    <li><a href="vip.html" class="btn btn-primary"
+                            style="width:100%; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);">💎
+                            VIP</a></li>
+
+                    <!-- Data Upload Section (shown when logged in as VIP/Admin) -->
+                    <li id="mobile-data-upload" class="data-status-wrapper"
+                        style="display:none; flex-direction:column; gap:0.5rem; padding:1rem; background:rgba(0,0,0,0.2); border-radius:8px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <span style="color:#94a3b8;">Kapanış:</span>
+                            <span id="mobile-status-closing">-</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <span style="color:#94a3b8;">Açılış:</span>
+                            <span id="mobile-status-opening">-</span>
+                        </div>
+                        <button id="mobile-load-closing-btn" class="btn btn-primary"
+                            style="width:100%; margin-bottom:0.5rem;">
+                            📊 Kapanış Verisi Yükle
+                        </button>
+                        <button id="mobile-load-opening-btn" class="btn btn-primary" style="width:100%;">
+                            📈 Açılış Verisi Yükle
+                        </button>
+                    </li>
+
+                    <!-- Admin Panel (Mobile) -->
+                    <li id="mobile-admin-btn" style="display:none; margin-bottom: 0.5rem; margin-top: 0.5rem;">
+                        <a href="admin.html" class="btn btn-primary"
+                            style="width:100%; padding: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 600; background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); border: none; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);">
+                            <span>🛡️</span> Admin Paneli
+                        </a>
+                    </li>
+
+
+                    <!-- Divider -->
+                    <li style="border-top: 1px solid rgba(255,255,255,0.1); margin: 0.5rem 0;"></li>
+
+                    <!-- User Actions (shown when logged in) -->
+                    <li id="mobile-user-actions" style="display:none;">
+                        <a href="profile.html" class="btn btn-outline" style="width:100%; margin-bottom:0.5rem;">👤
+                            Hesabım</a>
+                        <button onclick="Auth.logout()" class="btn btn-outline"
+                            style="border-color:var(--error-color); color:var(--error-color); width:100%;">
+                            🚪 Çıkış Yap
+                        </button>
+                    </li>
+
+                    <!-- Auth Actions (shown when logged out) -->
+                    <li id="mobile-auth-actions" style="display:flex; flex-direction:column; gap:0.5rem;">
+                        <a href="login.html" class="btn btn-outline" style="width:100%;">🔑 Giriş Yap</a>
+                        <a href="register.html" class="btn btn-primary" style="width:100%;">📝 Kayıt Ol</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            const body = document.body;
+            const isActive = nav.classList.contains('nav-active');
+
+            if (isActive) {
+                nav.classList.remove('nav-active');
+                body.classList.remove('nav-open');
+            } else {
+                nav.classList.add('nav-active');
+                body.classList.add('nav-open');
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (nav && nav.classList.contains('nav-active')) {
+                if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                    toggleMenu();
+                }
+            }
+        });
+    </script>
+
+    <style>
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none !important;
+            }
+
+            .mobile-only-link {
+                display: block !important;
+            }
+
+            .mobile-only-header {
+                display: block !important;
+            }
+        }
+    </style>
+
+    <main class="container"
+        style="padding-top: 6rem; text-align: center; min-height: 80vh; display: flex; flex-direction: column; justify-content: flex-start;">
+        <h1
+            style="font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 2rem; line-height: 1.1; animation: fadeInUp 0.8s ease-out;">
+            <span
+                style="background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Futbol
+                Veri</span>
+            <br class="mobile-only-break" />
+            <span
+                style="background: linear-gradient(135deg, #3b82f6, #06b6d4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); position: relative; display: inline-block;">
+                Analiz
+                <!-- Underline decoration -->
+                <svg viewBox="0 0 200 15"
+                    style="position: absolute; bottom: -10px; left: 0; width: 100%; height: 15px; opacity: 0.8;">
+                    <path d="M5,10 Q100,5 195,10" fill="none" stroke="#3b82f6" stroke-width="3"
+                        stroke-linecap="round" />
+                </svg>
+            </span>
+            <span
+                style="background: linear-gradient(to right, #94a3b8, #ffffff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Platformu</span>
+        </h1>
+
+        <p
+            style="font-size: 1.35rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 3.5rem auto; line-height: 1.7; animation: fadeInUp 1s ease-out 0.2s backwards; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+            Gelişmiş algoritmalarla futbol maçlarının oran ve istatistiklerini analiz ederek <span
+                style="color:white; font-weight:600;">profesyonel</span> veriye ulaşın.
+        </p>
+
+        <style>
+            @keyframes fadeInUp {
+                from {
+                    transform: translateY(30px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .mobile-only-break {
+                display: none;
+            }
+
+            @media (max-width: 768px) {
+                .mobile-only-break {
+                    display: block;
+                }
+            }
+        </style>
+
+        <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 3rem; text-align: center;">
+            <p id="dynamic-message" style="font-size: 1.1rem; color: #fff;">Yükleniyor...</p>
+
+
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="contact.html" class="btn btn-outline"
+                    style="font-size: 0.9rem; padding: 0.5rem 1.5rem; border-radius: 50px; border-color: rgba(255,255,255,0.2); color: #ccc;">
+                    📩 Sorunla karşılaşırsanız bildirin
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- SEO / Blog Section -->
+    <section class="container" style="padding: 4rem 1rem; text-align: left;">
+        <h2
+            style="font-size: 2rem; margin-bottom: 2rem; color: white; border-left: 4px solid var(--primary-color); padding-left: 1rem;">
+            Futbol Analiz ve İstatistik Rehberi
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <!-- Blog Card 1 -->
+            <article class="glass-card" style="padding: 1.5rem; transition: transform 0.3s ease;">
+                <div
+                    style="background: rgba(59, 130, 246, 0.1); color: var(--primary-color); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">
+                    Analiz Rehberi
+                </div>
+                <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.25rem;">Oran Analizi Nasıl Yapılır?</h3>
+                <p style="color: var(--secondary-color); font-size: 0.95rem; line-height: 1.6;">
+                    Futbol maçlarında doğru analiz yapmak için oran değişimlerini ve geçmiş maç istatistiklerini nasıl
+                    kullanacağınızı öğrenin.
+                    Başarılı analizler için veri odaklı yaklaşımın önemi.
+                </p>
+                <a href="blog.html?article=1"
+                    style="display: inline-block; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Devamını
+                    Oku →</a>
+            </article>
+
+            <!-- Blog Card 2 -->
+            <article class="glass-card" style="padding: 1.5rem; transition: transform 0.3s ease;">
+                <div
+                    style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">
+                    İstatistik
+                </div>
+                <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.25rem;">KG Var/Yok İstatistikleri</h3>
+                <p style="color: var(--secondary-color); font-size: 0.95rem; line-height: 1.6;">
+                    Karşılıklı gol var (KG Var) veya yok (KG Yok) seçeneklerinde nelere dikkat edilmeli?
+                    Takımların hücum ve savunma istatistiklerini kullanarak daha isabetli analizler yapın.
+                </p>
+                <a href="blog.html?article=2"
+                    style="display: inline-block; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Devamını
+                    Oku →</a>
+            </article>
+
+            <!-- Blog Card 3 -->
+            <article class="glass-card" style="padding: 1.5rem; transition: transform 0.3s ease;">
+                <div
+                    style="background: rgba(234, 179, 8, 0.1); color: #eab308; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">
+                    Strateji
+                </div>
+                <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.25rem;">Alt/Üst Analiz Stratejileri</h3>
+                <p style="color: var(--secondary-color); font-size: 0.95rem; line-height: 1.6;">
+                    2.5 gol altı ve üstü seçeneklerinde etkili stratejiler nelerdir?
+                    Lig bazlı istatistikler ve takım form durumlarının analizi ile doğru veriye ulaşın.
+                </p>
+                <a href="blog.html?article=10"
+                    style="display: inline-block; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Devamını
+                    Oku →</a>
+            </article>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="blog.html" class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;">Tüm Analiz ve
+                Yazıları Gör (15+) →</a>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container"
+            style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 1rem 0; gap: 1rem;">
+            <div class="badge-18" style="margin: 0; justify-self: start;">
+                <span>🔞</span> <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; justify-self: center;">
+                <p style="margin: 0; text-align: center; white-space: normal; font-size: 0.9rem;">
+                    &copy; 2026 Analiz Pro. Tüm hakları saklıdır.
+                </p>
+                <p style="margin: 0; text-align: center; color: var(--secondary-color); font-size: 0.8rem;">
+                    Sitemiz bahis sitesi değildir, sadece analiz sunar.
+                </p>
+                <div style="display: flex; gap: 1rem; font-size: 0.85rem;">
+                    <a href="about.html" style="color: var(--secondary-color); text-decoration: none;">Hakkımızda</a>
+                    <a href="legal.html" style="color: var(--secondary-color); text-decoration: none;">Gizlilik
+                        Politikası</a>
+                    <a href="contact.html" style="color: var(--secondary-color); text-decoration: none;">İletişim</a>
+                </div>
+            </div>
+
+            <a href="contact.html"
+                style="color: white; background: var(--primary-color); padding: 0.5rem 1rem; border-radius: 50px; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; justify-self: end; font-size: 0.9rem;">
+                <span>💬</span> Destek
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="excelLoader.js?v=2"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <script src="auth.js"></script>
+    <script src="db.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const messageBox = document.getElementById('dynamic-message');
+            const fileInput = document.getElementById('excel-file-input');
+            const loadClosingBtn = document.getElementById('load-closing-btn');
+            const loadOpeningBtn = document.getElementById('load-opening-btn');
+            const statusClosing = document.getElementById('status-closing');
+            const statusOpening = document.getElementById('status-opening');
+
+            // Mobile elements
+            const mobileLoadClosingBtn = document.getElementById('mobile-load-closing-btn');
+            const mobileLoadOpeningBtn = document.getElementById('mobile-load-opening-btn');
+            const mobileStatusClosing = document.getElementById('mobile-status-closing');
+            const mobileStatusOpening = document.getElementById('mobile-status-opening');
+
+            let uploadType = 'closing'; // Default
+
+            // Restore data from IndexedDB on load
+            const restoreData = async () => {
+                try {
+                    await ExcelLoader.restoreFromIndexedDB();
+
+                    if (ExcelLoader.hasClosing()) {
+                        const count = ExcelLoader.getClosingCount();
+                        const statusHTML = `<span style="color:#10b981;">✅ ${count}</span>`;
+                        if (statusClosing) statusClosing.innerHTML = statusHTML;
+                        if (mobileStatusClosing) mobileStatusClosing.innerHTML = statusHTML;
+                    } else {
+                        if (statusClosing) statusClosing.innerHTML = '-';
+                        if (mobileStatusClosing) mobileStatusClosing.innerHTML = '-';
+                    }
+
+                    if (ExcelLoader.hasOpening()) {
+                        const count = ExcelLoader.getOpeningCount();
+                        const statusHTML = `<span style="color:#10b981;">✅ ${count}</span>`;
+                        if (statusOpening) statusOpening.innerHTML = statusHTML;
+                        if (mobileStatusOpening) mobileStatusOpening.innerHTML = statusHTML;
+                    } else {
+                        if (statusOpening) statusOpening.innerHTML = '-';
+                        if (mobileStatusOpening) mobileStatusOpening.innerHTML = '-';
+                    }
+                } catch (error) {
+                    console.error('Data restore error:', error);
+                }
+            };
+
+            // Only restore data if user is VIP/admin (lazy loading for performance)
+            const cachedUser = Auth.getCurrentUser();
+            if (cachedUser && (cachedUser.role === 'vip' || cachedUser.role === 'admin')) {
+                restoreData();
+            }
+
+            // Handle file selection trigger
+            const triggerUpload = (type) => {
+                uploadType = type;
+                fileInput.click();
+            };
+
+            if (loadClosingBtn) loadClosingBtn.onclick = () => triggerUpload('closing');
+            if (loadOpeningBtn) loadOpeningBtn.onclick = () => triggerUpload('opening');
+            if (mobileLoadClosingBtn) mobileLoadClosingBtn.onclick = () => triggerUpload('closing');
+            if (mobileLoadOpeningBtn) mobileLoadOpeningBtn.onclick = () => triggerUpload('opening');
+
+            // File selected
+            fileInput.onchange = async () => {
+                const file = fileInput.files[0];
+                if (!file) return;
+
+                const statusSpan = uploadType === 'opening' ? statusOpening : statusClosing;
+                const mobileStatusSpan = uploadType === 'opening' ? mobileStatusOpening : mobileStatusClosing;
+
+                // Update status spans (both desktop and mobile)
+                const loadingHTML = '<span style="color:#fbbf24;">⏳</span>';
+                if (statusSpan) statusSpan.innerHTML = loadingHTML;
+                if (mobileStatusSpan) mobileStatusSpan.innerHTML = loadingHTML;
+
+                // Disable all buttons (desktop and mobile)
+                if (loadClosingBtn) {
+                    loadClosingBtn.style.opacity = '0.5';
+                    loadClosingBtn.style.pointerEvents = 'none';
+                }
+                if (loadOpeningBtn) {
+                    loadOpeningBtn.style.opacity = '0.5';
+                    loadOpeningBtn.style.pointerEvents = 'none';
+                }
+                if (mobileLoadClosingBtn) {
+                    mobileLoadClosingBtn.style.opacity = '0.5';
+                    mobileLoadClosingBtn.style.pointerEvents = 'none';
+                }
+                if (mobileLoadOpeningBtn) {
+                    mobileLoadOpeningBtn.style.opacity = '0.5';
+                    mobileLoadOpeningBtn.style.pointerEvents = 'none';
+                }
+
+                try {
+                    await ExcelLoader.loadFile(file, uploadType);
+
+                    // Update statuses (both desktop and mobile)
+                    if (ExcelLoader.hasClosing()) {
+                        const count = ExcelLoader.getClosingCount();
+                        const html = `<span style="color:#10b981;">✅ ${count}</span>`;
+                        if (statusClosing) statusClosing.innerHTML = html;
+                        if (mobileStatusClosing) mobileStatusClosing.innerHTML = html;
+                    } else if (uploadType === 'closing') {
+                        if (statusClosing) statusClosing.innerHTML = '-';
+                        if (mobileStatusClosing) mobileStatusClosing.innerHTML = '-';
+                    }
+
+                    if (ExcelLoader.hasOpening()) {
+                        const count = ExcelLoader.getOpeningCount();
+                        const html = `<span style="color:#10b981;">✅ ${count}</span>`;
+                        if (statusOpening) statusOpening.innerHTML = html;
+                        if (mobileStatusOpening) mobileStatusOpening.innerHTML = html;
+                    } else if (uploadType === 'opening') {
+                        if (statusOpening) statusOpening.innerHTML = '-';
+                        if (mobileStatusOpening) mobileStatusOpening.innerHTML = '-';
+                    }
+
+                    console.log(`✅ ${uploadType} verisi yüklendi.`);
+
+                } catch (error) {
+                    console.error('Excel yükleme hatası:', error);
+                    window.alert('HATA: ' + (error.message || error));
+
+                    const errorHTML = '<span style="color:red; font-size:1.2rem;">❌</span>';
+                    if (statusSpan) statusSpan.innerHTML = errorHTML;
+                    if (mobileStatusSpan) mobileStatusSpan.innerHTML = errorHTML;
+                } finally {
+                    // Re-enable all buttons
+                    if (loadClosingBtn) {
+                        loadClosingBtn.style.opacity = '1';
+                        loadClosingBtn.style.pointerEvents = 'auto';
+                    }
+                    if (loadOpeningBtn) {
+                        loadOpeningBtn.style.opacity = '1';
+                        loadOpeningBtn.style.pointerEvents = 'auto';
+                    }
+                    if (mobileLoadClosingBtn) {
+                        mobileLoadClosingBtn.style.opacity = '1';
+                        mobileLoadClosingBtn.style.pointerEvents = 'auto';
+                    }
+                    if (mobileLoadOpeningBtn) {
+                        mobileLoadOpeningBtn.style.opacity = '1';
+                        mobileLoadOpeningBtn.style.pointerEvents = 'auto';
+                    }
+                    fileInput.value = ''; // Reset input
+                }
+            };
+
+            // Note: Auth state is now handled by auth.js automatically
+            // The dynamic message is updated by Auth.updateUI() in auth.js
+        });
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Üyelik - Oran Analiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .pricing-card.popular {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.05));
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--primary-color);
+            color: #000;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 1.5rem 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            font-weight: 400;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .features li {
+            margin-bottom: 0.8rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features li::before {
+            content: "✓";
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .contact-section {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-telegram {
+            background: #0088cc;
+            color: white;
+        }
+
+        .btn-email {
+            background: #EA4335;
+            color: white;
+        }
+
+        .btn-telegram:hover,
+        .btn-email:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="glass-header">
+        <div class="container">
+            <nav>
+                <div style="display: flex; align-items: center; gap: 3rem;">
+                    <a href="index.html" class="logo">Analiz Pro</a>
+                    <div style="display: flex; gap: 1rem; visibility: hidden;">
+                        <a href="#" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Analiz</a>
+                        <a href="#" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Kaydedilenler</a>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="vip.html" class="active" style="color: var(--primary-color); font-weight: bold;">💎
+                            VIP</a></li>
+
+                    <li class="user-link">
+                        <span id="welcome-msg" style="margin-right: 1rem; color: var(--secondary-color);"></span>
+                        <a href="profile.html" class="btn btn-outline" style="margin-right: 0.5rem;">Profil</a>
+                        <button onclick="Auth.logout()" class="btn btn-primary">Çıkış</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem;">
+
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">VIP Ayrıcalıkları</h1>
+            <p style="color: var(--secondary-color); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                Profesyonel analiz araçlarına erişim sağlayın.
+            </p>
+        </div>
+
+        <div id="vip-status-message" class="glass-card"
+            style="display: none; text-align: center; padding: 2rem; max-width: 600px; margin: 0 auto; border-color: var(--success-color);">
+            <h2 style="color: var(--success-color); margin-bottom: 0.5rem;">🎉 Aktif VIP Üyeliğiniz Var!</h2>
+            <p style="font-size: 1.5rem; font-weight: bold;">Kalan Süre: <span id="remaining-days-display"
+                    style="color: var(--primary-color);">Yükleniyor...</span></p>
+            <p style="color: var(--secondary-color); margin-top: 1rem;">VIP süreniz bitmeden önce yenileme
+                yapabilirsiniz
+                veya
+                Admin Paneli'nden kontrol edebilirsiniz.</p>
+        </div>
+
+        <div id="pricing-area" class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Aylık Paket</h3>
+                <div class="price">350 ₺ <span>/ Ay</span></div>
+                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-bottom: 1rem;">Ön Bilgilendirme
+                    Amaçlıdır</p>
+                <ul class="features">
+                    <li>Tüm Maç Verilerine Erişim</li>
+                    <li>Gelişmiş Filtreleme</li>
+                    <li>VIP Analiz Araçları</li>
+                    <li>7/24 Destek</li>
+                </ul>
+                <a href="https://www.shopier.com/analizpronet/43443083" target="_blank" class="btn btn-outline"
+                    style="width: 100%;">Satın Al</a>
+            </div>
+
+            <div class="pricing-card popular">
+                <div class="popular-badge">POPÜLER</div>
+                <h3>3 Aylık Paket</h3>
+                <div class="price">875 ₺ <span>/ 3 Ay</span></div>
+                <p style="color: var(--success-color); font-size: 0.9rem; margin-bottom: 0.5rem;">(Normal: 1050₺ - 175₺
+                    Kazanç)</p>
+                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-bottom: 1rem;">Ön Bilgilendirme
+                    Amaçlıdır</p>
+                <ul class="features">
+                    <li>Aylık Paketin Tüm Özellikleri</li>
+                    <li>Erken Erişim Özellikleri</li>
+                    <li>Özel Destek Hattı</li>
+                </ul>
+                <a href="https://www.shopier.com/analizpronet/43443107" target="_blank" class="btn btn-outline"
+                    style="width: 100%; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);">Satın Al</a>
+            </div>
+
+            <div class="pricing-card">
+                <h3>Yıllık Paket</h3>
+                <div class="price">3500 ₺ <span>/ Yıl</span></div>
+                <p style="color: var(--success-color); font-size: 0.9rem; margin-bottom: 0.5rem;">(Normal: 4200₺ - 700₺
+                    Kazanç)</p>
+                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-bottom: 1rem;">Ön Bilgilendirme
+                    Amaçlıdır</p>
+                <ul class="features">
+                    <li>Tüm Özellikler Dahil</li>
+                    <li>2 Ay Ücretsiz (Yıllık Ödeme)</li>
+                    <li>Birebir Danışmanlık</li>
+                    <li>Öncelikli Destek</li>
+                </ul>
+                <a href="https://www.shopier.com/analizpronet/43443127" target="_blank" class="btn btn-outline"
+                    style="width: 100%;">Satın Al</a>
+            </div>
+        </div>
+
+        <div id="contact" class="contact-section">
+            <h2 style="margin-bottom: 1rem;">Bize Ulaşın</h2>
+            <p style="color: var(--secondary-color); margin-bottom: 2rem;">
+                VIP üyelik satın almak veya bilgi almak için aşağıdaki kanallardan bize ulaşabilirsiniz.
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                <a href="https://t.me/afgtyr" target="_blank" class="contact-btn btn-telegram">
+                    ✈️ Telegram: @afgtyr
+                </a>
+                <a href="mailto:analizpro01@gmail.com" class="contact-btn btn-email">
+                    📧 E-posta: analizpro01@gmail.com
+                </a>
+            </div>
+
+            <div style="margin-top: 2rem; color: var(--secondary-color); font-size: 0.9rem;">
+                <p>Sorularınız için bizimle iletişime geçebilirsiniz.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer" style="margin-top: 4rem;">
+        <div class="container">
+            <div class="badge-18">
+                <span>🔞</span>
+                <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+            <p style="margin: 0.5rem 0; text-align: center; color: var(--secondary-color); font-size: 0.8rem;">
+                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+            </p>
+            <p>&copy; 2026 Analiz Pro. Tüm hakları saklıdır. | <a href="legal.html"
+                    style="color: var(--secondary-color); text-decoration: underline;">Kullanım Koşulları ve Gizlilik
+                    Politikası</a> | <a href="legal.html#disclaimer"
+                    style="color: var(--secondary-color); text-decoration: underline;">Sorumluluk Reddi</a></p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = Auth.getCurrentUser();
+            const pricingArea = document.getElementById('pricing-area');
+            const vipStatusMessage = document.getElementById('vip-status-message');
+            const remainingDaysDisplay = document.getElementById('remaining-days-display');
+
+            // Giriş kontrolü (auth.js'in checkAuth'u menüleri ayarlar, bu da girişi zorlar)
+            if (user) {
+                // Hoşgeldin mesajını ayarla
+                const welcomeMsg = document.getElementById('welcome-msg');
+                if (welcomeMsg) welcomeMsg.textContent = `Merhaba, ${user.username}`;
+
+                // VIP durum kontrolü
+                if (user.role === 'vip' && user.vipExpiry) {
+                    const endDate = new Date(user.vipExpiry);
+                    const now = new Date();
+                    const diffTime = endDate - now;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (diffDays > 0) {
+                        // Aktif VIP ise: Fiyatları gizle, durumu göster
+                        pricingArea.style.display = 'none';
+                        vipStatusMessage.style.display = 'block';
+                        remainingDaysDisplay.textContent = `${diffDays} gün`;
+
+                    } else {
+                        // Süresi dolmuşsa: Fiyatları göster
+                        vipStatusMessage.style.display = 'none';
+                        pricingArea.style.display = 'grid';
+                    }
+                } else {
+                    // VIP değilse: Fiyatları göster
+                    vipStatusMessage.style.display = 'none';
+                    pricingArea.style.display = 'grid';
+                }
+            } else {
+                // Misafir ise: Fiyatları göster
+                vipStatusMessage.style.display = 'none';
+                pricingArea.style.display = 'grid';
+            }
+        });
+    </script>
+</body>
+
+</html>

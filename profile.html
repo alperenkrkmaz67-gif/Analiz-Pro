@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hesap Bilgileri - Oran Analiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+    <div class="container">
+        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+            <!-- Back Button -->
+            <a href="index.html" class="btn btn-outline" style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                ← Ana Sayfa
+            </a>
+            
+            <!-- Logo -->
+            <a href="index.html" class="logo" style="font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                Analiz Pro
+            </a>
+        </nav>
+    </div>
+</header>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('nav-active');
+        }
+    </script>
+
+    <main class="container" style="padding-top: 4rem;">
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; align-items: start; max-width: 1400px; margin: 0 auto;">
+
+            <div class="glass-card">
+                <div
+                    style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
+                    <span style="font-size: 1.2rem;">🪪</span>
+                    <h3 style="margin: 0;">Profil Bilgileri</h3>
+                </div>
+
+                <form id="profile-info-form">
+                    <div class="form-group">
+                        <label for="profile-email">E-posta Adresi</label>
+                        <input type="email" id="profile-email" class="form-control" readonly
+                            style="color: var(--secondary-color);">
+                        <small
+                            style="color: #f39c12; font-size: 0.75rem; margin-top: 0.25rem; display: block;">Değiştirilmesi
+                            tavsiye edilmez (Değiştirmek için Admin'e başvurunuz).</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-username">Ad Soyad (Kullanıcı Adı) *</label>
+                        <input type="text" id="profile-username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-phone">Telefon</label>
+                        <input type="tel" id="profile-phone" class="form-control" placeholder="05xxxxxxxxx">
+                    </div>
+
+                    <div id="profile-message" style="margin-top: 1rem; font-size: 0.9rem; text-align: center;"></div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                        💾 Profili Güncelle
+                    </button>
+                </form>
+            </div>
+
+            <div class="glass-card">
+                <div
+                    style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
+                    <span style="font-size: 1.2rem;">🔑</span>
+                    <h3 style="margin: 0;">Şifre Değiştir</h3>
+                </div>
+
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="current-password">Mevcut Şifre *</label>
+                        <input type="password" id="current-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Yeni Şifre *</label>
+                        <input type="password" id="new-password" class="form-control" required
+                            placeholder="En az 6 karakter olmalıdır">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Yeni Şifre Tekrar *</label>
+                        <input type="password" id="confirm-password" class="form-control" required>
+                    </div>
+
+                    <div id="password-message" style="margin-top: 1rem; font-size: 0.9rem; text-align: center;"></div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem; background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%); border: none;">
+                        🛡️ Şifreyi Değiştir
+                    </button>
+                </form>
+            </div>
+
+            <div class="glass-card">
+                <div
+                    style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
+                    <span style="font-size: 1.2rem;">💎</span>
+                    <h3 style="margin: 0;">VIP Bilgileri</h3>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--secondary-color);">Kayıt Tarihi:</span>
+                        <span id="created-at-display" style="font-weight: 500;">-</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--secondary-color);">Rol:</span>
+                        <span id="role-display"></span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--secondary-color);">ID:</span>
+                        <span id="id-display" style="font-family: monospace; font-weight: bold;">-</span>
+                    </div>
+
+                    <div id="vip-details-block"
+                        style="display: none; flex-direction: column; gap: 1.2rem; border-top: 1px solid var(--glass-border); padding-top: 1.2rem; margin-top: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--secondary-color);">VIP Durumu:</span>
+                            <span class="badge" id="vip-status-badge"
+                                style="background: rgba(46, 204, 113, 0.2); color: #2ecc71;">AKTİF</span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--secondary-color);">VIP Başlangıç:</span>
+                            <span id="vip-start-date" style="font-weight: 500;">-</span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--secondary-color);">VIP Bitiş:</span>
+                            <span id="vip-end-date" style="font-weight: 500;">-</span>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: var(--secondary-color);">Kalan Süre:</span>
+                            <span id="vip-remaining-days"
+                                style="font-weight: 800; color: #ffd700; font-size: 1.1rem;">-</span>
+                        </div>
+                    </div>
+
+                    <div id="no-vip-alert"
+                        style="display: none; text-align: center; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                        <span style="color: var(--secondary-color); font-size: 0.9rem;">VIP üyeliğiniz
+                            bulunmamaktadır.</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="badge-18">
+                <span>🔞</span>
+                <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+            <p style="margin: 0.5rem 0; text-align: center; color: var(--secondary-color); font-size: 0.8rem;">
+                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+            </p>
+            <p>&copy; 2026 Analiz Pro. Tüm hakları saklıdır. | <a href="legal.html"
+                    style="color: var(--secondary-color); text-decoration: underline;">Kullanım Koşulları ve Gizlilik
+                    Politikası</a> | <a href="legal.html#disclaimer"
+                    style="color: var(--secondary-color); text-decoration: underline;">Sorumluluk Reddi</a></p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <script src="auth.js"></script>
+
+    <script>
+        // Tarih formatlama helper
+        const formatDate = (dateStr) => {
+            if (!dateStr) return '-';
+            try {
+                return new Date(dateStr).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+            } catch (e) {
+                return '-';
+            }
+        };
+
+        // DOMContentLoaded içinde, tüm elementlerin yüklendiğinden emin oluyoruz
+        document.addEventListener('DOMContentLoaded', () => {
+            // Firebase Auth durumunu kontrol et ve menüleri güncelle
+            Auth.checkAuth();
+
+            const user = Auth.getCurrentUser();
+
+            // Eğer kullanıcı yoksa ve yönlendirilmediyse, dur
+            if (!user) {
+                return;
+            }
+
+            // --- 1. Kullanıcı Bilgilerini Yükle ---
+            // ID'lerin varlığını kontrol etmeye gerek yok, çünkü yukarıda HTML'de düzelttik.
+            document.getElementById('profile-email').value = user.email || '';
+            document.getElementById('profile-username').value = user.username || '';
+            document.getElementById('profile-phone').value = user.phone || '';
+
+            document.getElementById('created-at-display').textContent = formatDate(user.createdAt);
+            document.getElementById('id-display').textContent = `#${user.uid.substring(0, 8)}...`;
+
+            const roleDisplay = document.getElementById('role-display');
+            roleDisplay.textContent = (user.role || 'USER').toUpperCase();
+            roleDisplay.className = 'badge';
+
+            if (!user.role || user.role === 'user') roleDisplay.classList.add('badge-user');
+            else if (user.role === 'admin') roleDisplay.classList.add('badge-admin');
+            else if (user.role === 'vip') roleDisplay.classList.add('badge-vip');
+
+            // VIP Logic (Fixed)
+            const vipBlock = document.getElementById('vip-details-block');
+            const noVipAlert = document.getElementById('no-vip-alert');
+
+            // Check if VIP based on expiry
+            const isVIP = user.vipExpiry && new Date(user.vipExpiry) > new Date();
+
+            if (isVIP) {
+                const endDate = new Date(user.vipExpiry);
+                const now = new Date();
+                const diffTime = endDate - now;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                vipBlock.style.display = 'flex';
+                noVipAlert.style.display = 'none';
+
+                document.getElementById('vip-start-date').textContent = user.vipStartDate ? formatDate(user.vipStartDate) : '-';
+                document.getElementById('vip-end-date').textContent = formatDate(user.vipExpiry);
+
+                const remainingDaysEl = document.getElementById('vip-remaining-days');
+
+                if (diffDays > 0) {
+                    remainingDaysEl.textContent = `${diffDays} gün`;
+                    remainingDaysEl.style.color = "var(--success-color)";
+                } else {
+                    remainingDaysEl.textContent = "SÜRE DOLDU";
+                    remainingDaysEl.style.color = "var(--error-color)";
+                }
+            } else {
+                vipBlock.style.display = 'none';
+                noVipAlert.style.display = 'block';
+            }
+
+
+            // --- 2. Profil Güncelleme Formu İşleyicisi ---
+            const profileForm = document.getElementById('profile-info-form');
+            const profileMsgDiv = document.getElementById('profile-message');
+
+            profileForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // DÜZELTİLMİŞ ID'ler ile değerleri al
+                const username = document.getElementById('profile-username').value;
+                const phone = document.getElementById('profile-phone').value;
+
+                const btn = e.target.querySelector('button');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = 'Güncelleniyor...';
+                profileMsgDiv.textContent = '';
+
+
+                const updates = {};
+                // Sadece değişen alanları güncelle
+                if (username && username !== user.username) updates.username = username;
+                if (phone !== user.phone) updates.phone = phone;
+
+                if (Object.keys(updates).length > 0) {
+                    // Auth.updateProfile artık auth.js'te tanımlı ve çalışır durumda
+                    const result = await Auth.updateProfile(updates);
+
+                    if (result.success) {
+                        profileMsgDiv.textContent = 'Profil bilgileri başarıyla güncellendi.';
+                        profileMsgDiv.style.color = 'var(--success-color)';
+                        // Not: Sayfayı yenilemeye gerek yok, Auth.updateProfile bunu hallediyor.
+                    } else {
+                        profileMsgDiv.textContent = `Hata: ${result.message}`;
+                        profileMsgDiv.style.color = 'var(--error-color)';
+                    }
+                } else {
+                    profileMsgDiv.textContent = 'Değişiklik yapılmadı.';
+                    profileMsgDiv.style.color = 'var(--secondary-color)';
+                }
+
+                btn.disabled = false;
+                btn.textContent = originalText;
+            });
+
+
+            // --- 3. Şifre Güncelleme Formu İşleyicisi ---
+            const passwordForm = document.getElementById('password-form');
+            const passwordMsgDiv = document.getElementById('password-message');
+
+            passwordForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                passwordMsgDiv.textContent = '';
+
+                if (newPassword.length < 6) {
+                    passwordMsgDiv.textContent = 'Yeni şifre en az 6 karakter olmalıdır.';
+                    passwordMsgDiv.style.color = 'var(--error-color)';
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    passwordMsgDiv.textContent = 'Yeni şifreler eşleşmiyor!';
+                    passwordMsgDiv.style.color = 'var(--error-color)';
+                    return;
+                }
+
+                const btn = e.target.querySelector('button');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = 'Değiştiriliyor...';
+
+
+                const result = await Auth.updatePassword(currentPassword, newPassword);
+
+                if (result.success) {
+                    passwordMsgDiv.textContent = result.message;
+                    passwordMsgDiv.style.color = 'var(--success-color)';
+                    passwordForm.reset();
+                } else {
+                    passwordMsgDiv.textContent = result.message;
+                    passwordMsgDiv.style.color = 'var(--error-color)';
+                }
+
+                btn.disabled = false;
+                btn.textContent = originalText;
+            });
+        });
+    </script>
+</body>
+
+</html>

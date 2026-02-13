@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analiz Pro - Gelişmiş Maç Analizi</title>
+    <link rel="stylesheet" href="style.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            padding-top: 2rem;
+            max-width: 98%;
+            margin: 0 auto;
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .custom-input,
+        .custom-select {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            padding: 0.8rem;
+            border-radius: 8px;
+            width: 100%;
+            outline: none;
+        }
+
+        .match-select-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .match-dropdown-list {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            z-index: 100;
+            display: none;
+        }
+
+        .match-dropdown-list.show {
+            display: block;
+        }
+
+        .match-option {
+            padding: 0.8rem;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .match-option:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .filter-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .filter-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 0.8rem;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+            color: var(--secondary-color);
+        }
+
+        .filter-card:hover,
+        .filter-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(59, 130, 246, 0.1);
+            color: white;
+        }
+
+        .result-container {
+            min-height: 500px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .analysis-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .analysis-table th {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            padding: 0.8rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .analysis-table td {
+            padding: 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+
+        .bet-win {
+            background: #10b981;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .bet-loss {
+            background: rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Modal & Badges */
+        .col-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1f2937;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #374151;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 400px;
+        }
+
+        .col-modal.show {
+            display: block;
+        }
+
+        .col-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .col-overlay.show {
+            display: block;
+        }
+
+        .col-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .col-item label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #d1d5db;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .res-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+            min-width: 45px;
+            text-align: center;
+        }
+
+        .bg-green {
+            background: #10b981;
+            color: white;
+        }
+
+        .bg-gray {
+            background: #374151;
+            color: #9ca3af;
+        }
+
+        .bg-blue {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .bg-red {
+            background: #ef4444;
+            color: white;
+        }
+
+        .bg-draw {
+            background: #4b5563;
+            color: white;
+        }
+
+        /* Colors moved to style.css */
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .dashboard-container {
+                display: flex;
+                flex-direction: column;
+                padding-top: 1rem;
+            }
+
+            .control-panel {
+                position: static;
+                width: 100%;
+                order: -1;
+                /* Ensure panel is on top */
+                margin-bottom: 2rem;
+            }
+
+            .filter-options-grid {
+                grid-template-columns: 1fr 1fr;
+                /* Keep 2 cols or stack to 1 if needed */
+            }
+
+            #match-select-btn {
+                min-width: 0;
+                /* Prevent overflow */
+            }
+
+            /* Filter bar stacking */
+            #results-filter-bar {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Match Detail Modal */
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e293b;
+            padding: 0;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .detail-modal.show {
+            display: flex;
+        }
+
+        .detail-header {
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-content {
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        .detail-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+        }
+
+        .detail-overlay.show {
+            display: block;
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                <!-- Back Button -->
+                <a href="index.html" class="btn btn-outline"
+                    style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    ← Ana Sayfa
+                </a>
+
+                <!-- Logo (centered on mobile, right on desktop) -->
+                <a href="index.html" class="logo"
+                    style="font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    Analiz Pro
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            const body = document.body;
+            const isActive = nav.classList.contains('nav-active');
+
+            if (isActive) {
+                nav.classList.remove('nav-active');
+                body.classList.remove('nav-open');
+            } else {
+                nav.classList.add('nav-active');
+                body.classList.add('nav-open');
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (nav && nav.classList.contains('nav-active')) {
+                if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                    toggleMenu();
+                }
+            }
+        });
+
+        // Header Logic (File Uploads & Status)
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('excel-file-input');
+            const loadClosingBtn = document.getElementById('load-closing-btn');
+            const loadOpeningBtn = document.getElementById('load-opening-btn');
+            const statusClosing = document.getElementById('status-closing');
+            const statusOpening = document.getElementById('status-opening');
+            let uploadType = 'closing';
+
+            // Restore Status Display
+            const updateHeaderStatus = () => {
+                if (ExcelLoader.isLoaded()) {
+                    if (ExcelLoader.hasClosing()) {
+                        statusClosing.innerHTML = `<span style="color:#10b981;">✅ ${ExcelLoader.getClosingCount()}</span>`;
+                    } else { statusClosing.innerHTML = '-'; }
+
+                    if (ExcelLoader.hasOpening()) {
+                        statusOpening.innerHTML = `<span style="color:#10b981;">✅ ${ExcelLoader.getOpeningCount()}</span>`;
+                    } else { statusOpening.innerHTML = '-'; }
+                }
+            };
+            // Hook into initPage or run here? ExcelLoader might not be ready if initPage loads it async.
+            // But analysis.html calls ExcelLoader.restoreFromIndexedDB() in initPage().
+            // We can just rely on initPage calling updateDataStatusIndicator AND we should add this new logic there or here.
+            // Actually, the best place is inside initPage or after restore.
+            // I will expose a global function or just poll/check.
+            // Let's hook into the existing window.allMatches logic if possible.
+            // Or better, just run a check loop or let initPage handle it since I'm editing the file.
+
+            // Setup Upload Triggers
+            const triggerUpload = (type) => {
+                uploadType = type;
+                fileInput.click();
+            };
+            if (loadClosingBtn) loadClosingBtn.onclick = () => triggerUpload('closing');
+            if (loadOpeningBtn) loadOpeningBtn.onclick = () => triggerUpload('opening');
+
+            if (fileInput) {
+                fileInput.onchange = async () => {
+                    const file = fileInput.files[0];
+                    if (!file) return;
+                    const statusSpan = uploadType === 'opening' ? statusOpening : statusClosing;
+
+                    statusSpan.innerHTML = '<span style="color:#fbbf24;">⏳</span>';
+
+                    try {
+                        const targetBtn = uploadType === 'opening' ? loadOpeningBtn : loadClosingBtn;
+                        targetBtn.style.opacity = '0.5';
+                        targetBtn.style.pointerEvents = 'none';
+
+                        await ExcelLoader.loadFile(file, uploadType);
+
+                        updateHeaderStatus(); // Update layout
+
+                        // Also refresh page analysis if needed
+                        if (typeof window.initPage === 'function') {
+                            window.initPage(); // Reload analysis with new data
+                        }
+
+                    } catch (error) {
+                        alert('HATA: ' + error.message);
+                        statusSpan.innerHTML = '❌';
+                    } finally {
+                        const targetBtn = uploadType === 'opening' ? loadOpeningBtn : loadClosingBtn;
+                        targetBtn.style.opacity = '1';
+                        targetBtn.style.pointerEvents = 'auto';
+                        fileInput.value = '';
+                    }
+                };
+            }
+
+            // Initial Check
+            setTimeout(updateHeaderStatus, 1000); // Small delay to allow main init to finish restoring
+        });
+    </script>
+
+    <div class="dashboard-container">
+        <aside class="control-panel">
+            <div class="panel-header">
+                <h2>Analiz Merkezi</h2>
+                <p>Kriterlerinizi belirleyin.</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tarih Seçimi</label>
+                <input type="date" id="date-selector" class="custom-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Karşılaşma Seçimi</label>
+                <div class="match-select-container" style="position: relative;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button id="prev-match-btn" class="btn btn-outline"
+                            style="padding: 0.8rem; flex-shrink: 0;">←</button>
+                        <div id="match-select-btn" class="match-select-btn" style="flex: 1;">
+                            <span id="match-select-text">Yükleniyor...</span>
+                            <span>▼</span>
+                        </div>
+                        <button id="next-match-btn" class="btn btn-outline"
+                            style="padding: 0.8rem; flex-shrink: 0;">→</button>
+                    </div>
+                    <div id="match-dropdown-list" class="match-dropdown-list"></div>
+                </div>
+
+                <div class="filter-options-grid">
+                    <div class="filter-card" data-value="iy_gol">⚽ İlk Yarı Gol</div>
+                    <div class="filter-card" data-value="ms_kg_ust">🥅 MS-KG-ÜST</div>
+                    <div class="filter-card" data-value="iy_oran">📈 IY Oran</div>
+                </div>
+
+                <button id="col-settings-btn" class="btn btn-outline" style="width: 100%; margin-top: 1rem;">⚙️
+                    Seçenekler</button>
+                <div id="db-status-text"
+                    style="font-size: 0.75rem; text-align: center; margin-top: 1rem; color: var(--secondary-color);">
+                    Hazır.
+                </div>
+        </aside>
+
+        <main class="results-panel">
+            <!-- Date Filter Bar (Hidden by default) -->
+            <div id="results-filter-bar"
+                style="display:none; gap:10px; align-items:center; margin-bottom:15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                <span style="color:#d1d5db; font-size:0.9rem;">Tarih Aralığı:</span>
+                <input type="date" id="res-filter-start" class="custom-input"
+                    style="max-width: 140px; padding: 0.4rem;">
+                <span style="color:white;">-</span>
+                <input type="date" id="res-filter-end" class="custom-input" style="max-width: 140px; padding: 0.4rem;">
+                <button id="res-filter-btn" class="btn btn-primary"
+                    style="padding: 0.4rem 1rem; font-size: 0.9rem;">Süz</button>
+                <button
+                    onclick="document.getElementById('res-filter-start').value='';document.getElementById('res-filter-end').value='';applyDateFilter()"
+                    class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">Temizle</button>
+            </div>
+
+            <div class="result-container" id="result-box">
+
+                <div style="text-align: center; opacity: 0.5; padding: 5rem;">
+                    <div style="font-size: 4rem;">📊</div>
+                    <h3>Analiz İçin Seçim Yapın</h3>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Column Settings Modal -->
+    <div id="col-settings-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center;">
+        <div
+            style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%;">
+            <h3 style="margin-bottom: 1.5rem; color: white;">Sütun Ayarları</h3>
+            <div id="col-toggles-grid"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem;"></div>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button id="close-col-modal" class="btn btn-outline">İptal</button>
+                <button id="save-col-settings" class="btn btn-primary">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer" style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding: 1rem 0;">
+        <div class="container" style="text-align: center;">
+            <div class="badge-18" style="justify-content: center; margin-bottom: 0.5rem;">
+                <span>🔞</span>
+                <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+            <p style="margin: 0.5rem 0; color: var(--secondary-color); font-size: 0.8rem;">
+                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+            </p>
+            <p style="font-size: 0.85rem; color: var(--secondary-color);">&copy; 2026 Analiz Pro. Tüm hakları saklıdır.
+                |
+                <a href="about.html" style="color: var(--secondary-color);">Hakkımızda</a> |
+                <a href="legal.html" style="color: var(--secondary-color);">Gizlilik</a>
+            </p>
+        </div>
+    </footer>
+
+    <style id="dynamic-col-styles"></style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="excelLoader.js?v=2"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        var auth = firebase.auth();
+        var db = firebase.firestore();
+    </script>
+
+    <script src="auth.js"></script>
+    <script src="db.js"></script>
+
+    <script>
+        var allMatches = [];
+        var matchesForSelectedDate = [];
+        var selectedMatch = null;
+        var activeFilterType = null;
+
+
+        var globalResults = []; // Store analysis results for post-filtering
+
+        // Global helper to safely display values
+        const safeVal = (val, fallback = '-') => {
+            if (val === undefined || val === null || val === '') return fallback;
+            return val;
+        };
+
+        const getV = (obj, keys) => {
+            for (let key of keys) {
+                if (obj[key] !== undefined && obj[key] !== null) return parseFloat(String(obj[key]).replace(',', '.'));
+            }
+            return 0;
+        };
+
+        async function initPage() {
+            if (window.Auth) Auth.checkAuth();
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date-selector').value = today;
+
+            // Wait for IndexedDB to restore data
+            console.log("🔄 IndexedDB'den veri yükleniyor...");
+            try {
+                const restored = await ExcelLoader.restoreFromIndexedDB();
+                console.log("✅ IndexedDB Restore Result:", restored);
+            } catch (err) {
+                console.error("❌ IndexedDB Restore Error:", err);
+            }
+
+            // Check data status and update indicator
+            updateDataStatusIndicator();
+
+            // Setup column settings (if defined)
+            if (typeof setupColumnSettings === 'function') {
+                setupColumnSettings();
+            }
+
+            // If data is loaded, populate matches
+            if (ExcelLoader.isLoaded()) {
+                window.allMatches = ExcelLoader.getData();
+                console.log(`📊 Veri yüklendi: ${window.allMatches.length} maç`);
+                loadDate(today);
+            } else {
+                console.warn("⚠️ Veri yüklenemedi veya IndexedDB boş. Lütfen Excel yükleyin.");
+            }
+        }
+
+        function updateDataStatusIndicator() {
+            const indicator = document.getElementById('data-status-indicator');
+            if (!indicator) return;
+
+            if (ExcelLoader.isLoaded()) {
+                const count = ExcelLoader.getCount();
+                indicator.innerHTML = `✅ Veri Yüklü (${count} maç)`;
+                indicator.style.background = 'rgba(16, 185, 129, 0.1)';
+                indicator.style.color = '#10b981';
+            } else {
+                indicator.innerHTML = '❌ Veri Yüklü Değil';
+                indicator.style.background = 'rgba(239, 68, 68, 0.1)';
+                indicator.style.color = '#ef4444';
+            }
+        }
+
+        // Column Settings
+        function setupColumnSettings() {
+            const cols = [
+                { id: 'col-date', label: 'Tarih' },
+                { id: 'col-league', label: 'Lig' },
+                { id: 'col-home', label: 'Ev Sahibi' },
+                { id: 'col-away', label: 'Deplasman' },
+                { id: 'col-score-ht', label: 'İY Skor' },
+                { id: 'col-score', label: 'MS Skor' }
+            ];
+
+            window.updateColumnStyles = () => {
+                const prefs = JSON.parse(localStorage.getItem('analysisColumnPrefs')) || {};
+                let css = '';
+                cols.forEach(c => {
+                    if (prefs[c.id] === false) {
+                        css += `.${c.id} { display: none !important; } `;
+                    }
+                });
+                document.getElementById('dynamic-col-styles').innerHTML = css;
+            };
+
+            document.getElementById('col-settings-btn').onclick = () => {
+                const prefs = JSON.parse(localStorage.getItem('analysisColumnPrefs')) || {};
+                document.getElementById('col-toggles-grid').innerHTML = cols.map(c =>
+                    `<label style="display:flex; align-items:center; gap:0.5rem; color:#fff;">
+                        <input type="checkbox" data-col="${c.id}" ${prefs[c.id] !== false ? 'checked' : ''}> ${c.label}
+                    </label>`
+                ).join('');
+                document.getElementById('col-settings-modal').style.display = 'flex';
+            };
+
+            document.getElementById('save-col-settings').onclick = () => {
+                const newPrefs = {};
+                document.querySelectorAll('#col-toggles-grid input').forEach(i => {
+                    newPrefs[i.dataset.col] = i.checked;
+                });
+                localStorage.setItem('analysisColumnPrefs', JSON.stringify(newPrefs));
+                window.updateColumnStyles();
+                document.getElementById('col-settings-modal').style.display = 'none';
+            };
+
+            document.getElementById('close-col-modal').onclick = () => {
+                document.getElementById('col-settings-modal').style.display = 'none';
+            };
+
+            // Apply saved preferences on load
+            window.updateColumnStyles();
+        }
+
+
+        function loadDate(dateStr) {
+            const [y, m, d] = dateStr.split('-');
+            const formatted = `${d}.${m}.${y.slice(-2)}`; // Use 2-digit year to match DB format
+
+            console.log(`🔍 Tarih Arama: Input="${dateStr}", Formatted="${formatted}"`);
+            console.log(`📊 Toplam maç sayısı: ${allMatches.length}`);
+
+            if (allMatches.length > 0) {
+                console.log(`📝 İlk maç yapısı:`, allMatches[0]);
+                console.log(`📅 İlk 5 maç tarihleri:`, allMatches.slice(0, 5).map(m => ({
+                    date: m.date,
+                    tarih: m.tarih,
+                    Tarih: m.Tarih,
+                    '0': m[0]
+                })));
+            }
+
+            // Try multiple date field names
+            matchesForSelectedDate = allMatches.filter(m => {
+                const dateValue = m.date || m.tarih || m.Tarih || m['Tarih'] || m[0];
+                return dateValue === formatted;
+            });
+
+            console.log(`✅ Bulunan maç sayısı: ${matchesForSelectedDate.length}`);
+
+            const list = document.getElementById('match-dropdown-list');
+            const btnText = document.getElementById('match-select-text');
+
+            list.innerHTML = '';
+            if (matchesForSelectedDate.length > 0) {
+                btnText.innerText = "Maç Seçiniz...";
+
+                // Search Input
+                const searchContainer = document.createElement('div');
+                searchContainer.style.padding = '8px';
+                searchContainer.style.position = 'sticky';
+                searchContainer.style.top = '0';
+                searchContainer.style.backgroundColor = 'rgba(15, 23, 42, 0.95)';
+                searchContainer.style.zIndex = '10';
+                searchContainer.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+
+                const searchInput = document.createElement('input');
+                searchInput.type = 'text';
+                searchInput.placeholder = 'Maç Ara...';
+                searchInput.className = 'custom-input';
+                searchInput.style.width = '100%';
+                searchInput.style.padding = '6px';
+                searchInput.style.fontSize = '0.9rem';
+
+                searchInput.onclick = (e) => e.stopPropagation();
+                searchInput.oninput = (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const items = list.querySelectorAll('.match-option-item');
+                    items.forEach(item => {
+                        const text = item.innerText.toLowerCase();
+                        item.style.display = text.includes(term) ? 'block' : 'none';
+                    });
+                };
+
+                searchContainer.appendChild(searchInput);
+                list.appendChild(searchContainer);
+
+                matchesForSelectedDate.forEach((m, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'match-option match-option-item';
+
+                    // Display league and Time if available to match other pages style (optional but good)
+                    // But sticking to minimal change:
+
+                    // Use innerHTML for better formatting if desired, but original was innerText.
+                    // Let's use innerHTML to allow for future expansion and consistency if needed, 
+                    // but for now just text is fine, but wrapper class is needed for search.
+
+                    // Actually, let's make it look slightly better to match the search input style
+                    div.innerHTML = `<div style="font-weight:600; color:#e2e8f0;">${m.homeTeam} - ${m.awayTeam}</div>
+                                     <div style="font-size:0.8rem; color:#94a3b8;">${m.league || '-'}</div>`;
+
+                    div.onclick = () => selectMatch(m);
+                    list.appendChild(div);
+                });
+            } else {
+                btnText.innerText = "Maç Bulunamadı";
+            }
+        }
+
+        function selectMatch(match) {
+            selectedMatch = match;
+            currentMatchIndex = matchesForSelectedDate.indexOf(match);
+            document.getElementById('match-select-text').innerText = `${match.homeTeam} - ${match.awayTeam}`;
+            document.getElementById('match-dropdown-list').classList.remove('show');
+            document.querySelectorAll('.filter-card').forEach(c => c.classList.remove('selected'));
+
+            // Hide post-analysis filter
+            const fb = document.getElementById('results-filter-bar');
+            if (fb) fb.style.display = 'none';
+
+            if (activeFilterType) {
+                const card = document.querySelector(`.filter-card[data-value="${activeFilterType}"]`);
+                if (card) card.classList.add('selected');
+                runAnalysis(activeFilterType);
+                return;
+            }
+
+            // SHOW DETECTED ODDS FOR DEBUGGING
+            const tg23 = getV(match, ['tg_23', 26]);
+            const tg45 = getV(match, ['tg_45', 27]);
+
+            document.getElementById('result-box').innerHTML = `
+                <div style="text-align:center; padding:2rem;">
+                    <h2 style="color:white; margin-bottom:1rem;">${match.homeTeam} vs ${match.awayTeam}</h2>
+                    <div style="display:inline-block; text-align:left; background:rgba(255,255,255,0.05); padding:1.5rem; border-radius:12px; border:1px solid rgba(255,255,255,0.1);">
+                        <h4 style="color:#9ca3af; margin-bottom:10px;">Sistemin Okuduğu Oranlar:</h4>
+                        <div style="display:grid; grid-template-columns:auto auto; gap:10px 20px; color:white;">
+                            <span>TG 2-3:</span> <b style="color:${tg23 ? '#10b981' : '#ef4444'}">${safeVal(tg23, 'Yok')}</b>
+                            <span>TG 4-5:</span> <b style="color:${tg45 ? '#10b981' : '#ef4444'}">${safeVal(tg45, 'Yok')}</b>
+                        </div>
+                        <p style="margin-top:15px; font-size:0.85rem; color:#6b7280;">
+                            * Excel'deki ile aynı mı? Kontrol ediniz.
+                        </p>
+                    </div>
+                </div>`;
+
+            // Diagnostic logging
+            console.log('🎯 Seçilen maç:', match);
+            console.log('� Tüm sütunlar (index 0-30):', {
+                0: match[0], 1: match[1], 2: match[2], 3: match[3], 4: match[4],
+                5: match[5], 6: match[6], 7: match[7], 8: match[8], 9: match[9],
+                10: match[10], 11: match[11], 12: match[12], 13: match[13], 14: match[14],
+                15: match[15], 16: match[16], 17: match[17], 18: match[18], 19: match[19],
+                20: match[20], 21: match[21], 22: match[22], 23: match[23], 24: match[24],
+                25: match[25], 26: match[26], 27: match[27], 28: match[28], 29: match[29],
+                30: match[30]
+            });
+            console.log('�📊 Oranlar:', {
+                tg_23: getV(match, ['tg_23', 20]),
+                tg_45: getV(match, ['tg_45', 21]),
+                ms1: getV(match, ['ms1', 6]),
+                ms2: getV(match, ['ms2', 8]),
+                kg_var: getV(match, ['kg_var', 12]),
+                ms25_ust: getV(match, ['ms25_ust', 23]),
+                iy1: getV(match, ['iy1', 9]),
+                iy2: getV(match, ['iy2', 11])
+            });
+        }
+
+        async function runAnalysis(type) {
+            if (!selectedMatch) { alert("Lütfen maç seçin!"); return; }
+            const resultBox = document.getElementById('result-box');
+            resultBox.innerHTML = "⚡ Analiz Ediliyor...";
+
+            const TOL = 0.015;
+            let results = [];
+
+            if (type === 'iy_gol') {
+                // Modified per user request: 
+                // 1. Filter based on TG 2-3 and TG 4-5 odds simultaneously (Strict match)
+                // 2. RESTRICTION: Only matches within the LAST 10 DAYS relative to the selected match
+                // Indices: TG 2-3 (26), TG 4-5 (27)
+
+                const tg23 = getV(selectedMatch, ['tg_23', 26]);
+                const tg45 = getV(selectedMatch, ['tg_45', 27]);
+
+                console.log(`🔍 İlk Yarı Gol Filtresi (TG 2-3 & 4-5): 2-3=${safeVal(tg23)}, 4-5=${safeVal(tg45)}`);
+
+                if (!tg23 || !tg45) {
+                    alert("Seçilen maç için TG 2-3 veya TG 4-5 oranları eksik!");
+                    return;
+                }
+
+                results = allMatches.filter(m => {
+                    // 1. Skip selected match
+                    if (m.id === selectedMatch.id) return false;
+
+                    // 2. Odds Matching (Strict)
+                    const m23 = getV(m, ['tg_23', 26]);
+                    const m45 = getV(m, ['tg_45', 27]);
+
+                    if (m23 === undefined || m45 === undefined) return false;
+
+                    // STRICT MATCH (< 0.001)
+                    return Math.abs(m23 - tg23) < 0.001 && Math.abs(m45 - tg45) < 0.001;
+                });
+            } else if (type === 'ms_kg_ust') {
+                // MS1 is index 6, MS2 is index 8
+                const ms1 = getV(selectedMatch, ['ms1', 6]);
+                const ms2 = getV(selectedMatch, ['ms2', 8]);
+                const targetMs = Math.min(ms1, ms2);
+                // KG is index 12, MS 2.5 ÜST is index 22 (corrected mapping)
+                const kg = getV(selectedMatch, ['kg_var', 12]);
+                const ust = getV(selectedMatch, ['ms25_ust', 22]);
+
+                console.log(`🔍 MS-KG-ÜST Filtresi: MS=${safeVal(targetMs)}, KG=${safeVal(kg)}, ÜST=${safeVal(ust)}`);
+
+                results = allMatches.filter(m => {
+                    if (m.id === selectedMatch.id) return false;
+
+                    const mMs1 = getV(m, ['ms1', 6]);
+                    const mMs2 = getV(m, ['ms2', 8]);
+                    if (mMs1 === undefined || mMs2 === undefined) return false;
+
+                    const mMs = Math.min(mMs1, mMs2);
+                    return Math.abs(mMs - targetMs) < TOL && Math.abs(getV(m, ['kg_var', 12]) - kg) < TOL && Math.abs(getV(m, ['ms25_ust', 22]) - ust) < TOL;
+                });
+            } else if (type === 'iy_oran') {
+                // IY1 is index 9, IY2 is index 11 (user specification)
+                const iy1 = getV(selectedMatch, ['iy1', 9]);
+                const iy2 = getV(selectedMatch, ['iy2', 11]);
+
+                // Determine Favorite (Lower Odds) and its specific column
+                // User Request: If Favorite is Home (1), search ONLY in Home column. If Away (2), search ONLY in Away column.
+                let targetIy, targetSide;
+                if (iy1 <= iy2) {
+                    targetIy = iy1;
+                    targetSide = 'iy1'; // Index 9
+                } else {
+                    targetIy = iy2;
+                    targetSide = 'iy2'; // Index 11
+                }
+
+                console.log(`🔍 İY Oran Filtresi: Favori=${targetSide === 'iy1' ? 'Ev (1)' : 'Dep (2)'}, Oran=${targetIy}`);
+
+                // Date Parsing Helpers
+                const parseDate = (dStr) => {
+                    if (!dStr) return 0;
+                    const p = String(dStr).split('.'); // DD.MM.YY
+                    let y = parseInt(p[2]);
+                    if (y < 100) y += 2000;
+                    return new Date(y, parseInt(p[1]) - 1, parseInt(p[0])).getTime();
+                };
+
+                const selectedTs = parseDate(selectedMatch.date);
+                const TEN_DAYS_MS = 10 * 24 * 60 * 60 * 1000;
+
+                results = allMatches.filter(m => {
+                    // 1. Skip selected match
+                    if (m.id === selectedMatch.id) return false;
+
+                    // 2. Date Restriction (10 DAYS)
+                    const mTs = parseDate(m.date);
+                    if (mTs >= selectedTs || mTs < (selectedTs - TEN_DAYS_MS)) return false;
+
+                    // 3. Odds Logic (Column Specific)
+                    let mIy;
+                    if (targetSide === 'iy1') {
+                        mIy = getV(m, ['iy1', 9]);
+                    } else {
+                        mIy = getV(m, ['iy2', 11]);
+                    }
+
+                    if (mIy === undefined) return false;
+
+                    // STRICT MATCH requested by user ("bunda tolerans yok direkt ne oransa onu arayacak")
+                    // Using epsilon 0.001 to handle possible float imprecision, functionally identical to ===
+                    return Math.abs(mIy - targetIy) < 0.001;
+                });
+            }
+
+            console.log(`✅ Bulunan eşleşen maç sayısı: ${results.length}`);
+
+            // Store global results for date filtering
+            globalResults = results.filter(m => m.id !== selectedMatch.id);
+
+            // Unhide date filter bar and Reset inputs
+            const filterBar = document.getElementById('results-filter-bar');
+            if (filterBar) {
+                filterBar.style.display = 'flex';
+                document.getElementById('res-filter-start').value = '';
+                document.getElementById('res-filter-end').value = '';
+                document.getElementById('res-filter-btn').onclick = applyDateFilter;
+            }
+
+            renderTable(globalResults);
+        }
+
+        // Post-Analysis Date Filter Logic
+        function applyDateFilter() {
+            const startStr = document.getElementById('res-filter-start').value;
+            const endStr = document.getElementById('res-filter-end').value;
+
+            let filtered = globalResults;
+
+            if (startStr || endStr) {
+                const parseInputDate = (s) => new Date(s).getTime();
+                const startTime = startStr ? parseInputDate(startStr) : 0;
+                const endTime = endStr ? parseInputDate(endStr) : 8640000000000000; // Max date
+
+                const parseMatchDate = (dStr) => {
+                    if (!dStr) return 0;
+                    const p = String(dStr).split('.');
+                    let y = parseInt(p[2]);
+                    if (y < 100) y += 2000;
+                    return new Date(y, parseInt(p[1]) - 1, parseInt(p[0])).getTime();
+                };
+
+                filtered = globalResults.filter(m => {
+                    const mts = parseMatchDate(m.date);
+                    return mts >= startTime && mts <= endTime;
+                });
+            }
+
+            renderTable(filtered);
+        }
+
+        // --- DYNAMIC RESULTS TABLE IMPLEMENTATION ---
+
+        // Helper: Parse score "1-2" -> [1, 2]
+        const pScore = (s) => String(s || '0-0').split(/[-:]/).map(Number);
+
+        // Helper: Checkers
+        const isOver = (val, limit) => val > limit;
+        const isVar = (h, a) => h > 0 && a > 0;
+
+        // Dynamic Columns Configuration
+        const getCols = () => [
+            { id: 'date', label: 'Tarih', w: '60px', render: m => safeVal(m.date) },
+            { id: 'match', label: 'Maç', w: '140px', render: m => `<div style="line-height:1.2">${safeVal(m.homeTeam)}<br>${safeVal(m.awayTeam)}</div>` },
+            { id: 'score', label: 'Skor', w: '50px', render: m => `<div style="line-height:1.2;font-size:0.8rem">${safeVal(m.score_ht)}<br><b style="font-size:0.9rem">${safeVal(m.score)}</b></div>` },
+
+            // İY Detayları
+            {
+                id: 'iy05', label: 'İY 0.5', group: 'İY', render: m => {
+                    const [h, a] = pScore(m.score_ht);
+                    return (h + a) > 0.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'iy15', label: 'İY 1.5', group: 'İY', render: m => {
+                    const [h, a] = pScore(m.score_ht);
+                    return (h + a) > 1.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+
+            // MS Alt/Üst
+            {
+                id: 'ms15', label: 'MS 1.5', group: 'MS', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return (h + a) > 1.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'ms25', label: 'MS 2.5', group: 'MS', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return (h + a) > 2.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'ms35', label: 'MS 3.5', group: 'MS', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return (h + a) > 3.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'ms45', label: 'MS 4.5', group: 'MS', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return (h + a) > 4.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+
+            // Ev/Dep Golleri
+            {
+                id: 'ev05', label: 'Ev 0.5', group: 'Gol', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return h > 0.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'ev15', label: 'Ev 1.5', group: 'Gol', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return h > 1.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'dep05', label: 'Dep 0.5', group: 'Gol', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return a > 0.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+            {
+                id: 'dep15', label: 'Dep 1.5', group: 'Gol', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return a > 1.5 ? '<span class="res-badge bg-green">ÜST</span>' : '<span class="res-badge bg-gray">ALT</span>';
+                }
+            },
+
+            // KG
+            {
+                id: 'iykg', label: 'İY KG', group: 'KG', render: m => {
+                    const [h, a] = pScore(m.score_ht);
+                    return (h > 0 && a > 0) ? '<span class="res-badge bg-green">VAR</span>' : '<span class="res-badge bg-gray">YOK</span>';
+                }
+            },
+            {
+                id: 'mskg', label: 'MS KG', group: 'KG', render: m => {
+                    const [h, a] = pScore(m.score);
+                    return (h > 0 && a > 0) ? '<span class="res-badge bg-green">VAR</span>' : '<span class="res-badge bg-gray">YOK</span>';
+                }
+            },
+
+            // Sonuçlar (1-0-2)
+            {
+                id: 'iysonuc', label: 'İY Sonuç', group: 'Result', render: m => {
+                    const [h, a] = pScore(m.score_ht);
+                    if (h > a) return '<span class="res-badge bg-blue">1</span>';
+                    if (a > h) return '<span class="res-badge bg-red">2</span>';
+                    return '<span class="res-badge bg-draw">0</span>';
+                }
+            },
+            {
+                id: 'mssonuc', label: 'MS Sonuç', group: 'Result', render: m => {
+                    const [h, a] = pScore(m.score);
+                    if (h > a) return '<span class="res-badge bg-blue">1</span>';
+                    if (a > h) return '<span class="res-badge bg-red">2</span>';
+                    return '<span class="res-badge bg-draw">0</span>';
+                }
+            },
+
+            // Toplam Gol (Renkli)
+            // Toplam Gol (Renkli)
+            {
+                id: 'tg', label: 'TG', group: 'TG', render: m => {
+                    const [h, a] = pScore(m.score);
+                    const t = h + a;
+                    if (t <= 1) return '<span class="res-badge badge-tg-gray">0-1</span>';
+                    if (t >= 2 && t <= 3) return '<span class="res-badge badge-tg-orange">2-3</span>';
+                    if (t >= 4 && t <= 5) return '<span class="res-badge badge-tg-blue">4-5</span>';
+                    if (t >= 6) return '<span class="res-badge badge-tg-red">6+</span>';
+                    return '-';
+                }
+            },
+
+            // Show TG Odds for verification
+            { id: 'rate23', label: '2-3 Oran', w: '60px', render: m => safeVal(getV(m, ['tg_23', 26])) },
+            { id: 'rate45', label: '4-5 Oran', w: '60px', render: m => safeVal(getV(m, ['tg_45', 27])) }
+        ];
+
+        // Retrieve saved column state
+        let colState = JSON.parse(localStorage.getItem('colStateAnalysis')) || {};
+
+        // Initialize colState if empty
+        const cols = getCols();
+        if (Object.keys(colState).length === 0) {
+            cols.forEach(c => colState[c.id] = true);
+        }
+
+        function setupColumnSettings() {
+            const grid = document.getElementById('col-grid');
+            if (!grid) return;
+
+            grid.innerHTML = getCols().map(col => `
+                <div class="col-item">
+                    <label>
+                        <input type="checkbox" onchange="toggleCol('${col.id}')" ${colState[col.id] !== false ? 'checked' : ''}>
+                        ${col.label}
+                    </label>
+                </div>
+            `).join('');
+        }
+
+        function toggleCol(id) {
+            colState[id] = colState[id] === false ? true : false;
+            localStorage.setItem('colStateAnalysis', JSON.stringify(colState));
+            // Re-render
+            const resultsBox = document.getElementById('result-box');
+            if (resultsBox && window.lastResults) {
+                renderTable(window.lastResults);
+            }
+        }
+
+        function toggleColModal() {
+            document.getElementById('col-modal').classList.toggle('show');
+            document.getElementById('col-overlay').classList.toggle('show');
+        }
+
+        function renderTable(matches) {
+            window.lastResults = matches;
+
+            if (!matches || matches.length === 0) {
+                document.getElementById('result-box').innerHTML = '<div style="padding:20px; text-align:center; color:#9ca3af">Eşleşen geçmiş maç bulunamadı.</div>';
+                return;
+            }
+
+            // Sort by date newest
+            const parseDateToTs = (dStr) => {
+                if (!dStr) return 0;
+                const p = dStr.split('.');
+                let y = parseInt(p[2]);
+                if (y < 100) y += 2000;
+                return new Date(y, parseInt(p[1]) - 1, parseInt(p[0])).getTime();
+            };
+            matches.sort((a, b) => parseDateToTs(b.date) - parseDateToTs(a.date));
+
+            const allCols = getCols();
+            const activeCols = allCols.filter(c => colState[c.id] !== false);
+
+            let html = `<div style="overflow-x:auto;"><table class="analysis-table">
+                <thead><tr>
+                    ${activeCols.map(c => `<th>${c.label}</th>`).join('')}
+                </tr></thead>
+                <tbody>`;
+
+            matches.slice(0, 50).forEach(m => {
+                html += `<tr onclick="showMatchDetailById(${m.id})" style="cursor: pointer;" title="Tüm oranları görmek için tıklayın">
+                    ${activeCols.map(c => `<td>${c.render(m)}</td>`).join('')}
+                </tr>`;
+            });
+
+            html += `</tbody></table></div>`;
+            document.getElementById('result-box').innerHTML = html;
+        }
+
+        // Match navigation state
+        let currentMatchIndex = -1;
+
+        function setupEventListeners() {
+            document.getElementById('date-selector').onchange = (e) => loadDate(e.target.value);
+            document.getElementById('match-select-btn').onclick = () => document.getElementById('match-dropdown-list').classList.toggle('show');
+
+            document.querySelectorAll('.filter-card').forEach(card => {
+                card.onclick = () => {
+                    document.querySelectorAll('.filter-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    activeFilterType = card.dataset.value;
+                    runAnalysis(card.dataset.value);
+                };
+            });
+
+            // Navigation buttons
+            const prevBtn = document.getElementById('prev-match-btn');
+            if (prevBtn) prevBtn.onclick = () => {
+                if (matchesForSelectedDate.length === 0) return;
+                currentMatchIndex = (currentMatchIndex - 1 + matchesForSelectedDate.length) % matchesForSelectedDate.length;
+                selectMatch(matchesForSelectedDate[currentMatchIndex]);
+            };
+
+            const nextBtn = document.getElementById('next-match-btn');
+            if (nextBtn) nextBtn.onclick = () => {
+                if (matchesForSelectedDate.length === 0) return;
+                currentMatchIndex = (currentMatchIndex + 1) % matchesForSelectedDate.length;
+                selectMatch(matchesForSelectedDate[currentMatchIndex]);
+            };
+
+            // Column settings
+            const colBtn = document.getElementById('col-settings-btn');
+            if (colBtn) colBtn.onclick = toggleColModal;
+
+            // Close modal
+            const overlay = document.getElementById('col-overlay');
+            if (overlay) overlay.onclick = toggleColModal;
+        }
+
+        // Initializer
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners(); // Setup clicks first
+            initPage(); // Then load data
+        });
+
+        // Match Detail Modal Logic
+        const COLUMN_MAP = {
+            0: 'Tarih', 1: 'Lig', 2: 'Ev Sahibi', 3: 'Deplasman', 4: 'İY Skor', 5: 'MS Skor',
+            6: 'MS 1', 7: 'MS 0', 8: 'MS 2',
+            9: 'İY 1', 10: 'İY 0', 11: 'İY 2',
+            12: 'KG Var', 13: 'KG Yok',
+            14: 'ÇŞ 1-X', 15: 'ÇŞ 1-2', 16: 'ÇŞ X-2',
+            17: 'İY 1.5 Alt', 18: 'İY 1.5 Üst',
+            19: 'MS 1.5 Alt', 20: 'MS 1.5 Üst',
+            21: 'MS 2.5 Alt', 22: 'MS 2.5 Üst',
+            23: 'MS 3.5 Alt', 24: 'MS 3.5 Üst',
+            25: 'TG 0-1', 26: 'TG 2-3', 27: 'TG 4-5', 28: 'TG 6+'
+        };
+
+        function showMatchDetailById(id) {
+            const match = allMatches.find(m => m.id === id);
+            if (!match) return;
+
+            const grid = document.getElementById('detail-grid');
+            grid.innerHTML = '';
+
+            // Render mapped columns first (Extended to 100 to cover all potential odds)
+            for (let i = 0; i <= 100; i++) {
+                const val = match[i];
+                if (val !== undefined && val !== null && val !== '') {
+                    const label = COLUMN_MAP[i] || `Sütun ${i}`;
+
+                    // Skip if it's just repeating basic info already in header (optional, but requested all odds)
+                    // keeping everything for completeness as requested "exceldeki tüm oranlar"
+
+                    const div = document.createElement('div');
+                    div.className = 'detail-item';
+                    div.innerHTML = `
+                        <span class="detail-label">${label}</span>
+                        <div class="detail-value">${val}</div>
+                    `;
+                    grid.appendChild(div);
+                }
+            }
+
+            document.getElementById('detail-title').innerText = `${match.homeTeam} - ${match.awayTeam}`;
+            document.getElementById('detail-subtitle').innerText = `${match.date} | ${match.league}`;
+
+            toggleDetailModal(true);
+        }
+
+        function toggleDetailModal(show) {
+            const modal = document.getElementById('match-detail-modal');
+            const overlay = document.getElementById('match-detail-overlay');
+            if (show) {
+                modal.classList.add('show');
+                overlay.classList.add('show');
+            } else {
+                modal.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+
+    </script>
+
+    <!-- Column Settings Modal -->
+    <div class="col-overlay" id="col-overlay"></div>
+    <div class="col-modal" id="col-modal">
+        <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #374151; padding-bottom:10px;">
+            <h3 style="color:white; margin:0;">Sütun Ayarları</h3>
+            <button onclick="toggleColModal()"
+                style="background:none; border:none; color:#9ca3af; cursor:pointer; font-size:1.2rem;">✕</button>
+        </div>
+        <div class="col-grid" id="col-grid">
+            <!-- Checkboxes injected by JS -->
+        </div>
+        <div style="margin-top:15px; text-align:right;">
+            <button onclick="toggleColModal()" class="action-btn">Kapat</button>
+        </div>
+    </div>
+
+    <!-- New Match Detail Modal -->
+    <div class="detail-overlay" id="match-detail-overlay" onclick="toggleDetailModal(false)"></div>
+    <div class="detail-modal" id="match-detail-modal">
+        <div class="detail-header">
+            <div>
+                <h3 id="detail-title" style="color:white; margin:0; font-size:1.2rem;">Maç Detayı</h3>
+                <div id="detail-subtitle" style="color:#94a3b8; font-size:0.9rem; margin-top:4px;"></div>
+            </div>
+            <button onclick="toggleDetailModal(false)"
+                style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.5rem; padding:0 0.5rem;">&times;</button>
+        </div>
+        <div class="detail-content">
+            <div id="detail-grid" class="detail-grid"></div>
+        </div>
+    </div>
+    <script src="dataFetcher.js"></script>
+</body>
+
+</html>

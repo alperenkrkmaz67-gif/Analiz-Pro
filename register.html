@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol - Oran Analiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Analiz Pro</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="vip.html" style="color: var(--primary-color); font-weight: bold;">💎 VIP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="glass-card">
+            <h2 class="auth-title">Kayıt Ol</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta Adresi</label>
+                    <input type="email" id="email" class="form-control" placeholder="ornek@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon Numarası</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="05xxxxxxxxx" required>
+                    <small style="color: var(--secondary-color); font-size: 0.8rem;">Başında 0 ile birlikte
+                        giriniz.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Şifre Tekrar</label>
+                    <input type="password" id="confirm-password" class="form-control" required>
+                </div>
+                <div class="form-group" style="display: flex; align-items: start; gap: 0.5rem; margin-top: 1rem;">
+                    <input type="checkbox" id="terms-checkbox" required style="margin-top: 0.2rem; width: auto;">
+                    <label for="terms-checkbox"
+                        style="font-size: 0.9rem; color: var(--secondary-color); cursor: pointer;">
+                        <a href="legal.html" target="_blank"
+                            style="color: var(--primary-color); text-decoration: underline;">Kullanım koşullarını</a>
+                        okudum, anladım ve kabul ediyorum.
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Kayıt Ol</button>
+            </form>
+            <div class="auth-footer">
+                <p>Zaten hesabınız var mı? <a href="login.html">Giriş Yap</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="badge-18">
+                <span>🔞</span>
+                <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+            <p style="margin: 0.5rem 0; text-align: center; color: var(--secondary-color); font-size: 0.8rem;">
+                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+            </p>
+            <p>&copy; 2026 Analiz Pro. Tüm hakları saklıdır. | <a href="legal.html"
+                    style="color: var(--secondary-color); text-decoration: underline;">Kullanım Koşulları ve Gizlilik
+                    Politikası</a> | <a href="legal.html#disclaimer"
+                    style="color: var(--secondary-color); text-decoration: underline;">Sorumluluk Reddi</a></p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+
+        // Firebase'i başlat
+        firebase.initializeApp(firebaseConfig);
+
+        // Global değişkenler (auth.js bunlara erişecek)
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => { // ASYNC EKLENDİ
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const termsCheckbox = document.getElementById('terms-checkbox');
+
+            if (!termsCheckbox.checked) {
+                alert('Lütfen kullanım koşullarını kabul ediniz.');
+                return;
+            }
+
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+
+            if (password !== confirmPassword) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Kayıt olunuyor...';
+
+            // ASYNC OLARAK ÇAĞRILDI
+            const result = await Auth.register(username, email, password, phone);
+
+            if (result.success) {
+                alert(result.message);
+                window.location.href = 'login.html';
+            } else {
+                alert(result.message);
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+
+</html>

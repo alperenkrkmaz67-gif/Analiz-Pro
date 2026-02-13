@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilgilendirme - Analiz Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .info-container {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 2rem;
+        }
+
+        .info-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .info-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .info-text {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .info-text p {
+            margin-bottom: 1rem;
+        }
+
+        .mackolik-link {
+            color: #3b82f6;
+            /* Blue like primary usually or specific blue */
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .mackolik-link:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+    <div class="container">
+        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+            <!-- Back Button -->
+            <a href="index.html" class="btn btn-outline" style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                ← Ana Sayfa
+            </a>
+            
+            <!-- Logo -->
+            <a href="index.html" class="logo" style="font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                Analiz Pro
+            </a>
+        </nav>
+    </div>
+</header>
+
+    <div class="info-container">
+
+        <div class="info-card">
+            <h2>Filtre Kullanım Rehberi</h2>
+            <p style="color: #94a3b8; margin-bottom: 1.5rem;">Sistemdeki filtreleri en verimli şekilde kullanmak için
+                aşağıdaki yönergeleri takip edebilirsiniz.</p>
+
+            <div style="margin-bottom: 2rem;">
+                <h2
+                    style="color:var(--primary-color); border-bottom:2px solid var(--primary-color); display:inline-block; padding-bottom:0.5rem; margin-bottom:1.5rem;">
+                    Kapanış Oranları Filtreleri</h2>
+            </div>
+
+            <div class="info-title">1. Filtre: MS / KG / ÜST Analizi</div>
+            <div class="info-text">
+                <p><a href="https://arsiv.mackolik.com/Genis-Iddaa-Programi" target="_blank" class="mackolik-link">Arşiv
+                        Maçkolik</a> sitesine gidiyoruz. Halihazırda oynanan veya başlamasına çok
+                    az kalan (2-3dk) istediğimiz bir maçı seçiyoruz. Bu maçın favori takımının MS oranını, maçın KG Var
+                    oranını ve maçın 2.5 Üst oranını sistemde sırayla filtreliyoruz.</p>
+
+                <p>Sisteme direkt oranları giriyoruz. Sistem bunun 0.01 üst ve altını da dahil edip arıyor. Örneğin KG
+                    Var oranı 1.58 ise sistem 1.57 - 1.59 aralığını tarar.</p>
+
+                <p>Karşımıza o oranlarla açılan maçlar çıkacak. Her zaman çıkmayabilir, maç yoksa başka bir maça geçin.
+                    Bu çıkan maçların çoğunluğu ortak bir sonuçla bitmişse buna göre oynuyoruz. Örneğin: 7 maç çıkıyorsa
+                    6 maçta KG Var, 5 maçta 2.5 Üst bitmişse bu 2'liye göre oynuyoruz.</p>
+
+                <p>Ben en çok bunu kullanıyorum. Eğer bu filtreleme sonucu çok fazla maç çıkıyorsa ve bu maçlar alakasız
+                    bitmişse maçın KG Yok, 2.5 Alt gibi oranlarını da filtreye ekleyebilirsiniz. Ya da ilk yarı
+                    bitmesini bekleyip filtreye ilk yarı skorunu ekleyebilirsiniz (Canlı filtreler eklendiğinde).</p>
+            </div>
+
+            <br><br>
+
+            <div class="info-title">2. Filtre: İY Gol Analizi</div>
+            <div class="info-text">
+                <p>Bu filtre ilk yarı gol bulmak içindir. Yine 1. Filtredeki gibi <a
+                        href="https://arsiv.mackolik.com/Genis-Iddaa-Programi" target="_blank"
+                        class="mackolik-link">arşiv maçkoliğe</a> gidiyoruz. İstediğimiz bir maç seçiyoruz. Bu maçın
+                    toplam gol 2-3 ve 4-5 oranlarına bakıyoruz.</p>
+
+                <p>Bu oranları sisteme "İY Gol Filtresi" kısmına giriyoruz. Bu filtrede maç çıkmama olasılığı 1.
+                    Filtreye göre daha fazla. Maç çıkmazsa başka bir maç seçin. Yine bu filtreden sonra da karşımıza
+                    belli sayıda maçlar çıkacak.</p>
+
+                <p>Bu maçların ilk yarı skorlarına bakıyoruz. Yine büyük çoğunluğu ortak bitmişse buna göre oynuyoruz. 4
+                    maç çıkmışsa 4 maçta da ilk yarı en az 1 gol çıkmışsa ilk yarı 0.5 Üst alabiliriz.</p>
+            </div>
+
+            <br><br>
+
+            <div class="info-title">3. Filtre: İY Oran (Tarihli) Analizi</div>
+            <div class="info-text">
+                <p><a href="https://arsiv.mackolik.com/Genis-Iddaa-Programi" target="_blank" class="mackolik-link">Arşiv
+                        Maçkoliği</a> açıyoruz.</p>
+
+                <p>1. Filtrede anlattığım şeylere uyan istediğimiz bir maç seçiyoruz. Maçın favorisine bakıyoruz.
+                    Örneğin maçın favorisi deplasman takımı olsun. Deplasman takımının ilk yarı oranını (ilk yarı 2
+                    oranı) sisteme giriyoruz. Daha sonra maçın oynandığı günü Tarih kısmından seçiyoruz.</p>
+
+                <p>Karşımıza belli sayıda maç çıkacaktır. Eğer son 10 gün içinde o oranda maç açılmamışsa başka maç
+                    seçin. Çıkan maçlarda çoğunlukta ne varsa ona göre karar veriyoruz.</p>
+            </div>
+
+            <br><br>
+
+            <div style="margin-bottom: 2rem;">
+                <h2
+                    style="color:var(--primary-color); border-bottom:2px solid var(--primary-color); display:inline-block; padding-bottom:0.5rem; margin-bottom:1.5rem;">
+                    Açılış Oranları Filtreleri</h2>
+            </div>
+
+            <div class="info-title">1. Filtre: TG 4-5 Filtresi</div>
+            <div class="info-text">
+                <p>Tarihi seçip istediğiniz maçı seçtikten sonra Oran Seçimi kısmından TG 4-5 oranını seçin. Karşınıza o
+                    maçla aynı TG 4-5 oranına sahip maçlar çıkacak. Sağ üstten son 10 günün tarihlerini girip çıkan
+                    sonuçlara göre bakabilirsiniz her şeye.</p>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2rem 0;">
+
+            <p style="font-size: 0.9rem; color: #64748b; font-style: italic;">
+                Unutmayın bu bir analiz yardımcısıdır. Başarı oranını kayda değer şekilde arttırmakla birlikte hiçbir
+                zaman %100 kazanç vaadetmez.
+                Kasanızı doğru yöneterek, rehavete kapılmayarak uzun soluklu iyi kazançlar sağlayabilirsiniz.
+                Kendiniz de birtakım denemeler yaparak üstteki filtreler gibi siz de filtre bulabilirsiniz. 1. Filtrede
+                çok maç çıkıyorsa diğer oranları eklemek yöntemini başkası bulup bana söyledi.
+                Siz de bu tarz şeyler bulursanız bana bildirin. Filtreleri güncelleyelim.
+                Hep birlikte kazanalım. Herkese bol şans!
+            </p>
+
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <script src="auth.js"></script>
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            const body = document.body;
+            const isActive = nav.classList.contains('nav-active');
+
+            if (isActive) {
+                nav.classList.remove('nav-active');
+                body.classList.remove('nav-open');
+            } else {
+                nav.classList.add('nav-active');
+                body.classList.add('nav-open');
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (nav && nav.classList.contains('nav-active')) {
+                if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                    toggleMenu();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

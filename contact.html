@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Analiz Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .contact-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+        }
+
+        .contact-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #10b981;
+            /* Green color from image */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            transition: transform 0.2s;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-telegram {
+            background-color: #0088cc;
+        }
+
+        .btn-email {
+            background-color: #ea4335;
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div style="display: flex; align-items: center; gap: 3rem;">
+                    <a href="index.html" class="logo">Analiz Pro</a>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="analysis.html" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Filtre</a>
+                        <a href="analysis_select.html" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Analiz</a>
+                        <a href="info.html" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Bilgilendirme</a>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="vip.html" class="btn btn-outline"
+                            style="color: var(--primary-color); border-color: var(--primary-color); font-weight: bold; display: inline-flex; align-items: center; gap: 0.3rem;">
+                            💎 VIP
+                        </a>
+                    </li>
+
+                    <li class="auth-link"><a href="login.html" class="btn btn-outline">Giriş Yap</a></li>
+                    <li class="auth-link"><a href="register.html" class="btn btn-primary">Kayıt Ol</a></li>
+
+                    <li class="user-link" style="display: none;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <a href="admin.html" id="admin-btn" class="btn btn-primary"
+                                style="display: none; padding: 0.5rem 1rem; font-size: 0.9rem;">Admin Paneli</a>
+
+                            <div class="dropdown">
+                                <a href="profile.html" class="btn btn-outline"
+                                    style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;">
+                                    <span id="role-badge" class="badge badge-user" style="display: none;">USER</span>
+                                    <span id="username-display" style="font-weight: 600;">Kullanıcı</span>
+                                    <span style="font-size: 0.8rem;">▼</span>
+                                </a>
+                                <div class="dropdown-content">
+                                    <a href="profile.html">Hesap Bilgileri</a>
+                                    <a href="#" onclick="Auth.logout()"
+                                        style="border-top: 1px solid var(--glass-border); color: var(--error-color);">Çıkış
+                                        Yap</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contact-container">
+        <h1 style="text-align: center; margin-bottom: 2rem;">İletişim Formu</h1>
+
+        <div class="contact-card">
+            <form id="contact-form" onsubmit="sendEmail(event)">
+                <div class="form-group">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" id="name" class="form-control" placeholder="Adınız Soyadınız" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" id="email" class="form-control" placeholder="ornek@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Telefon</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="0555 555 55 55">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mesajınız</label>
+                    <textarea id="message" class="form-control" rows="5" placeholder="Mesajınızı yazın..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Gönder</button>
+            </form>
+        </div>
+
+        <div class="social-links">
+            <a href="https://t.me/afgtyr" target="_blank" class="social-btn btn-telegram">
+                ✈️ Telegram: @afgtyr
+            </a>
+            <a href="mailto:analizpro01@gmail.com" class="social-btn btn-email">
+                📧 E-posta: analizpro01@gmail.com
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem; color: var(--secondary-color); font-size: 0.9rem;">
+            Sorularınız için bizimle iletişime geçebilirsiniz.
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="badge-18">
+                <span>🔞</span>
+                <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+            <p style="margin: 0.5rem 0; text-align: center; color: var(--secondary-color); font-size: 0.8rem;">
+                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+            </p>
+            <p>&copy; 2026 Analiz Pro. Tüm hakları saklıdır. |
+                <a href="about.html" style="color: var(--secondary-color);">Hakkımızda</a> |
+                <a href="contact.html" style="color: var(--secondary-color);">İletişim</a> |
+                <a href="legal.html" style="color: var(--secondary-color);">Gizlilik Politikası</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menü güncellemeleri Auth.checkAuth() tarafından auth.js'de yapılıyor.
+
+            // Formu kullanıcı bilgileriyle önceden doldurma
+            const user = Auth.getCurrentUser();
+            if (user) {
+                if (user.email) document.getElementById('email').value = user.email;
+                if (user.username) document.getElementById('name').value = user.username;
+            }
+        });
+
+        function sendEmail(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const msg = document.getElementById('message').value;
+
+            // Construct mailto link
+            const subject = encodeURIComponent('Analiz Pro İletişim Formu');
+            const body = encodeURIComponent(
+                `Ad Soyad: ${name}\n` +
+                `E-posta: ${email}\n` +
+                `Telefon: ${phone}\n\n` +
+                `Mesaj:\n${msg}`
+            );
+
+            const mailtoLink = `mailto:analizpro01@gmail.com?subject=${subject}&body=${body}`;
+
+            // Open default mail client
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+
+</html>

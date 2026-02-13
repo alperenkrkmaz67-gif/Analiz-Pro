@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog ve Analiz Rehberi - Analiz Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .blog-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .blog-tag {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+            display: inline-block;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .blog-title {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+        .page-header {
+            text-align: center;
+            padding-top: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            width: 100%;
+            max-width: 800px;
+            max-height: 85vh;
+            border-radius: 1rem;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .modal-body h3 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+        }
+
+        .modal-body ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971400872681266"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div style="display: flex; align-items: center; gap: 3rem;">
+                    <a href="index.html" class="logo">Analiz Pro</a>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="analysis.html" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Filtre</a>
+                        <a href="analysis_select.html" class="btn btn-outline"
+                            style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 0.4rem 1.2rem;">Analiz</a>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li class="auth-link"><a href="login.html" class="btn btn-outline">Giriş Yap</a></li>
+                    <li class="auth-link"><a href="register.html" class="btn btn-primary">Kayıt Ol</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1>Futbol Analiz Kütüphanesi</h1>
+        <p style="color: var(--secondary-color);">Veriye dayalı analiz stratejileri, istatistik okuma rehberleri ve
+            uzman görüşleri.</p>
+    </div>
+
+    <!-- Blog Container will be populated by JS if we were dynamic, but here we keep static cards for SEO and hook clicks -->
+    <div class="blog-container">
+
+        <!-- 1 -->
+        <article class="blog-card">
+            <span class="blog-tag">Temel Analiz</span>
+            <h3 class="blog-title">Doğru İstatistik Okuma Sanatı</h3>
+            <p class="blog-excerpt">
+                Futbol istatistikleri sadece rakamlardan ibaret değildir. Topla oynama yüzdesinden çok, tehlikeli bölge
+                aksiyonlarının maç sonucuna etkisini nasıl yorumlamalısınız?
+            </p>
+            <a onclick="openModal(1)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 2 -->
+        <article class="blog-card">
+            <span class="blog-tag">Strateji</span>
+            <h3 class="blog-title">KG Var/Yok Seçimlerinde Kritik Faktörler</h3>
+            <p class="blog-excerpt">
+                Takımların hem gol atma hem de gol yeme alışkanlıklarını inceleyin. Savunma zaafiyetleri ve hücum hattı
+                form durumları KG (Karşılıklı Gol) analizinin temelidir.
+            </p>
+            <a onclick="openModal(2)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 3 -->
+        <article class="blog-card">
+            <span class="blog-tag">Veri Bilimi</span>
+            <h3 class="blog-title">Poisson Dağılımı ve Futbol</h3>
+            <p class="blog-excerpt">
+                Matematiksel modeller futbolda nasıl kullanılır? Poisson dağılımı ile takımların gol beklentisini (xG)
+                hesaplama yöntemlerine giriş yapın.
+            </p>
+            <a onclick="openModal(3)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 4 -->
+        <article class="blog-card">
+            <span class="blog-tag">Kasa Yönetimi</span>
+            <h3 class="blog-title">Sürdürülebilir Başarı İçin Kasa Yönetimi</h3>
+            <p class="blog-excerpt">
+                Analizleriniz ne kadar iyi olursa olsun, doğru kasa yönetimi olmadan uzun vadeli başarı imkansızdır.
+                Martingale, Kelly Kriteri ve sabit bahis sistemlerini inceliyoruz.
+            </p>
+            <a onclick="openModal(4)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 5 -->
+        <article class="blog-card">
+            <span class="blog-tag">Lig Analizi</span>
+            <h3 class="blog-title">Alt Liglerde Veri Madenciliği</h3>
+            <p class="blog-excerpt">
+                Büyük liglerin aksine, alt liglerde (Championship, Bundesliga 2 vb.) oran verimsizliklerini yakalamak
+                daha kolay olabilir. Alt lig analiz teknikleri nelerdir?
+            </p>
+            <a onclick="openModal(5)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 6 -->
+        <article class="blog-card">
+            <span class="blog-tag">Form Durumu</span>
+            <h3 class="blog-title">İç Saha ve Deplasman Performans Farkı</h3>
+            <p class="blog-excerpt">
+                Bazı takımlar evinde kale gibiyken deplasmanda dağılırlar. İç saha/dış saha puan farklarını analiz
+                ederek sürpriz sonuçları önceden kestirebilirsiniz.
+            </p>
+            <a onclick="openModal(6)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 7 -->
+        <article class="blog-card">
+            <span class="blog-tag">Oran Analizi</span>
+            <h3 class="blog-title">Oran Düşüşleri Ne Anlama Gelir?</h3>
+            <p class="blog-excerpt">
+                Maç öncesi oranların sert bir şekilde düşmesi her zaman o takımın kazanacağı anlamına gelmez. Oran
+                manipülasyonları ve sakatlık haberlerinin etkisini ayırt edin.
+            </p>
+            <a onclick="openModal(7)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 8 -->
+        <article class="blog-card">
+            <span class="blog-tag">Psikoloji</span>
+            <h3 class="blog-title">Analizci Psikolojisi ve Duygusal Kontrol</h3>
+            <p class="blog-excerpt">
+                Tuttuğunuz takımın maçını analiz ederken duygusallıktan nasıl kaçınırsınız? Objektif veri analizi için
+                zihinsel hazırlık teknikleri.
+            </p>
+            <a onclick="openModal(8)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 9 -->
+        <article class="blog-card">
+            <span class="blog-tag">Taktik</span>
+            <h3 class="blog-title">Teknik Direktör Değişikliğinin Etkisi</h3>
+            <p class="blog-excerpt">
+                "Yeni hoca etkisi" bir mit mi yoksa gerçek mi? Teknik direktör değişikliklerinden sonraki ilk 5 maçın
+                istatistiksel analizi.
+            </p>
+            <a onclick="openModal(9)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 10 -->
+        <article class="blog-card">
+            <span class="blog-tag">Alt/Üst</span>
+            <h3 class="blog-title">2.5 Gol Üstü İçin İdeal Ligler</h3>
+            <p class="blog-excerpt">
+                Avrupa'nın en golcü ligleri hangileri? Hollanda Eredivisie, Almanya Bundesliga ve İsviçre Süper Ligi'nin
+                gol ortalamalarını kıyaslıyoruz.
+            </p>
+            <a onclick="openModal(10)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 11 -->
+        <article class="blog-card">
+            <span class="blog-tag">Canlı Analiz</span>
+            <h3 class="blog-title">Maç İçi Veri Okuma</h3>
+            <p class="blog-excerpt">
+                Canlı analizde şut sayıları, köşe vuruşları ve topla oynama oranları nasıl yorumlanmalı? Maçın son 15
+                dakikasında gol gelme olasılığını hesaplama.
+            </p>
+            <a onclick="openModal(11)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 12 -->
+        <article class="blog-card">
+            <span class="blog-tag">Hava Durumu</span>
+            <h3 class="blog-title">Hava Koşullarının Maça Etkisi</h3>
+            <p class="blog-excerpt">
+                Yağmurlu ve rüzgarlı havaların gol sayılarına ve sürpriz sonuçlara etkisi. İklim şartlarını analiz
+                parametresi olarak kullanmalı mısınız?
+            </p>
+            <a onclick="openModal(12)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 13 -->
+        <article class="blog-card">
+            <span class="blog-tag">Hakem</span>
+            <h3 class="blog-title">Hakem İstatistiklerinin Önemi</h3>
+            <p class="blog-excerpt">
+                Kart göstermeyi seven hakemler ve penaltı çalma oranları. Maçı yönetecek hakemin geçmiş istatistikleri,
+                agresiflik düzeyi analizinizde yer almalı.
+            </p>
+            <a onclick="openModal(13)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 14 -->
+        <article class="blog-card">
+            <span class="blog-tag">Eksikler</span>
+            <h3 class="blog-title">Kadro Eksikleri ve Sakatlıklar</h3>
+            <p class="blog-excerpt">
+                Yıldız oyuncusu olmayan bir takımın hücum gücü yüzde kaç düşer? Sakat ve cezalı oyuncu listesinin maç
+                analizindeki hayati önemi.
+            </p>
+            <a onclick="openModal(14)" class="read-more">Devamını Oku →</a>
+        </article>
+
+        <!-- 15 -->
+        <article class="blog-card">
+            <span class="blog-tag">Derbi</span>
+            <h3 class="blog-title">Derbi Maçlarında İstatistik Yanılgısı</h3>
+            <p class="blog-excerpt">
+                Derbi maçları neden istatistik tanımaz? Atmosferin ve rekabetin getirdiği psikolojik faktörler, veri
+                analizini nasıl geçersiz kılabilir?
+            </p>
+            <a onclick="openModal(15)" class="read-more">Devamını Oku →</a>
+        </article>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="badge-18">
+                <span>🔞</span>
+                <span>Bu site 18 yaş ve üzeri içindir.</span>
+            </div>
+            <p style="margin: 0.5rem 0; text-align: center; color: var(--secondary-color); font-size: 0.8rem;">
+                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+            </p>
+            <p>&copy; 2026 Analiz Pro. Tüm hakları saklıdır. |
+                <a href="about.html" style="color: var(--secondary-color);">Hakkımızda</a> |
+                <a href="contact.html" style="color: var(--secondary-color);">İletişim</a> |
+                <a href="legal.html" style="color: var(--secondary-color);">Gizlilik Politikası</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Article Modal -->
+    <div class="modal-overlay" id="article-modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Makale Başlığı</h3>
+                <button class="close-btn" onclick="closeModalBtn()">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQ4ACkLfcLIgljpJvwWpy2hF7RaalR7ZI",
+            authDomain: "orananaliz.firebaseapp.com",
+            projectId: "orananaliz",
+            storageBucket: "orananaliz.firebasestorage.app",
+            messagingSenderId: "1036870580660",
+            appId: "1:1036870580660:web:4c74e00ec6f0483fe39ae1",
+            measurementId: "G-D4BMSDR1JS"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+    </script>
+    <script src="auth.js"></script>
+
+    <script>
+        // Article Content Database
+        const articles = {
+            1: {
+                title: "Doğru İstatistik Okuma Sanatı",
+                content: `
+                    <p>Futbol analizlerinde en büyük yanılgı, istatistikleri yüzeysel okumaktır. "Topla oynama oranının %70 olması", o takımın maçı domine ettiği anlamına gelmeyebilir. Eğer bu %70'lik oran kendi yarı sahasında paslaşarak elde edildiyse, hücum anlamında kısırdır.</p>
+                    
+                    <h3>Nelere Dikkat Etmelisiniz?</h3>
+                    <ul>
+                        <li><strong>xG (Gol Beklentisi):</strong> Bir takımın yarattığı pozisyonların kalitesini ölçer. Az şut atıp yüksek xG üreten takımlar, daha net pozisyonlara giriyor demektir.</li>
+                        <li><strong>Tehlikeli Bölge Aksiyonları:</strong> Rakip ceza sahasında topla buluşma sayıları, şut sayısından daha iyi bir göstergedir.</li>
+                        <li><strong>Pas İsabet Oranı (3. Bölge):</strong> Hücum bölgesindeki pas isabeti, savunma kilidini açma becerisini gösterir.</li>
+                    </ul>
+                    <p>Sonuç olarak, sadece skorboarda veya topla oynamaya bakmak yerine, oyunun akışını ve pozisyon üretim kalitesini analiz etmek sizi bir adım öne taşır.</p>
+                `
+            },
+            2: {
+                title: "KG Var/Yok Seçimlerinde Kritik Faktörler",
+                content: `
+                    <p>Karşılıklı Gol (KG) seçenekleri, taraf seçiminden kaçınmak isteyenler için popüler bir seçenektir. Ancak her golcü takımın maçı KG Var bitmez.</p>
+                    
+                    <h3>Kontrol Listesi</h3>
+                    <ul>
+                        <li><strong>Savunma Zafiyetleri:</strong> Sadece hücum hattına değil, savunma hattına bakın. Gol atan ama kolay gol yiyen takımlar KG Var için idealdir.</li>
+                        <li><strong>Sakatlıklar:</strong> Takımın as stoperi veya kalecisi sakatsa, gol yeme ihtimali artar.</li>
+                        <li><strong>Oyun Mantalitesi:</strong> Skoru bulunca yaslanan (park the bus) takımların maçlarında KG Yok ihtimali yükselir.</li>
+                    </ul>
+                    <p>İstatistiksel olarak, lig ortalamasının üzerinde gol yiyen ve atan iki takımın karşılaşması, bu seçenek için en güçlü adaydır.</p>
+                `
+            },
+            3: {
+                title: "Poisson Dağılımı ve Futbol",
+                content: `
+                    <p>Poisson dağılımı, belirli bir zaman diliminde gerçekleşen nadir olayların (futbolda gol gibi) olasılığını hesaplamak için kullanılan matematiksel bir yöntemdir.</p>
+                    
+                    <h3>Nasıl Hesaplanır?</h3>
+                    <p>Takımların "Hücum Gücü" ve "Savunma Gücü" katsayıları hesaplanır. Lig ortalamasına göre bir takımın ne kadar çok gol attığı ve ne kadar az gol yediği belirlenir. Bu veriler Poisson formülüne dökülerek maçın 0-0, 1-0, 1-1 gibi skorlarla bitme olasılıkları yüzdesel olarak çıkarılır.</p>
+                    
+                    <p>Bu yöntem %100 sonuç vermese de, büroların açtığı oranlardaki hataları (value bet) yakalamak için mükemmel bir araçtır.</p>
+                `
+            },
+            4: {
+                title: "Sürdürülebilir Başarı İçin Kasa Yönetimi",
+                content: `
+                    <p>Dünyanın en iyi analizcisi bile olsanız, kötü bir kasa yönetimi ile iflas etmeniz kaçınılmazdır. Bu alanda başarılı olmak maraton koşusudur, 100 metre sprint değil.</p>
+                    
+                    <h3>Temel Kurallar</h3>
+                    <ul>
+                        <li><strong>Sabit Kasa (Flat Stake):</strong> Kasanızın her zaman belirli bir yüzdesini (örn. %2-3) kullanmak. En güvenli yöntemdir.</li>
+                        <li><strong>Unit Sistemi:</strong> Güven endeksine göre 1-10 arası birim belirlemek. Ancak 10/10'luk seçime bile kasanın %5'inden fazlası riske edilmemelidir.</li>
+                        <li><strong>Asla "Telafi" Hamlesi Yapmayın:</strong> Kaybettiğiniz tutarı geri almak için (hırs yaparak) daha yüksek riskli kararlar almak, kasanın sıfırlanmasının en hızlı yoludur.</li>
+                    </ul>
+                `
+            },
+            5: {
+                title: "Alt Liglerde Veri Madenciliği",
+                content: `
+                    <p>Premier Lig veya La Liga gibi büyük liglerde oranlar çok keskindir (sharp). Bürolar bu liglere çok fazla veri kaynağıyla hakimdir. Ancak alt liglerde fırsat daha çoktur.</p>
+                    
+                    <h3>Neden Alt Ligler?</h3>
+                    <p>Japonya 2. Ligi, Norveç 3. Ligi veya İngiltere Ulusal Ligi gibi yerlerde, bir takımın önemli bir oyuncusunun eksikliği oranı hemen etkilemeyebilir. Yerel haberleri takip ederek ve o ligin dinamiklerini öğrenerek, bürolardan daha hızlı pozisyon alabilirsiniz. Veri madenciliği burada devreye girer; herkesin bakmadığı yere bakmak kazandırır.</p>
+                `
+            },
+            6: {
+                title: "İç Saha ve Deplasman Performans Farkı",
+                content: `
+                    <p>Futbolda "ev sahibi avantajı" sadece bir klişe değildir, istatistiksel bir gerçektir. Ancak bazı takımlar için bu fark uçuruma dönüşür.</p>
+                    
+                    <p>Analiz yaparken genel puan durumuna bakmak yanıltıcıdır. "İç Saha" ve "Dış Saha" puan durumlarını ayrı ayrı inceleyin. Evinde 10 maçtır kaybetmeyen bir orta sıra takımı, deplasmanda liderden bile daha kırılgan olabilir. Bu takımları yakaladığınızda, evlerinde oynadıkları maçlarda "Çifte Şans" veya "Beraberlikte İade" seçenekleri çok değerli olabilir.</p>
+                `
+            },
+            7: {
+                title: "Oran Düşüşleri Ne Anlama Gelir?",
+                content: `
+                    <p>Bir maçın oranının aniden 2.20'den 1.70'e düşmesi, o maçın kesin geleceği anlamına gelmez. Bu düşüşün sebebini anlamak gerekir.</p>
+                    
+                    <h3>Düşüş Nedenleri</h3>
+                    <ul>
+                        <li><strong>Yüklü Hacim:</strong> Büyük bir kitlenin o tarafa yüklenmesi, risk yönetimi için oranı düşürtür.</li>
+                        <li><strong>Kadro Bilgisi:</strong> Önemli bir sakatlık haberi veya rotasyon kadrosu sızmış olabilir.</li>
+                        <li><strong>Manipülasyon:</strong> Bazen de suni düşüşler yaratılarak analizciler yanlış yönlendirilebilir.</li>
+                    </ul>
+                    <p>Sebepsiz (veya sadece söylentiye dayalı) oran düşüşlerinin peşinden gitmek uzun vadede kaybettirir. Her zaman kendi analizinize güvenin.</p>
+                `
+            },
+            8: {
+                title: "Analizci Psikolojisi ve Duygusal Kontrol",
+                content: `
+                    <p>Veriler objektiftir, ancak insan beyni sübjektiftir. En büyük düşmanınız karşı takım değil, kendi duygularınızdır.</p>
+                    
+                    <h3>Duygusal Tuzaklar</h3>
+                    <ul>
+                        <li><strong>Taraftarlık:</strong> Tuttuğunuz takımın maçını asla analizlerinize dahil etmeyin. Gözünüzdeki "kazanır" algısı, takım sevgisinden kaynaklanıyor olabilir.</li>
+                        <li><strong>Son Yarılık Sendromu:</strong> Son dakikada değişen bir skordan sonraki o öfke anında, hemen yeni bir maça odaklanmayın. 15 dakika mola verin.</li>
+                        <li><strong>Aşırı Özgüven:</strong> Üst üste 5 maç bilmek sizi yanıltmasın. Her maçın hikayesi 0-0 başlar ve bağımsızdır.</li>
+                    </ul>
+                `
+            },
+            9: {
+                title: "Teknik Direktör Değişikliğinin Etkisi",
+                content: `
+                    <p>"Yeni hoca takıma taze kan getirir" düşüncesi istatistiksel olarak desteklenmekte midir? Çoğu araştırmaya göre, bu etki kısa vadelidir.</p>
+                    
+                    <p>Hoca değişikliğinden sonraki ilk 1-3 maçta, oyuncuların kendilerini yeni hocaya ispatlama çabasıyla performans ve mücadele gücü artar. Bu dönemde sürpriz galibiyetler gelebilir. Ancak 5. haftadan sonra takım genellikle eski ortalamasına döner. Hoca değişikliğini takip eden ilk maçlarda "Gol Var" veya "Taraf Seçimi" yaparken, oyuncuların reaksiyon vereceğini hesaba katın.</p>
+                `
+            },
+            10: {
+                title: "2.5 Gol Üstü İçin İdeal Ligler",
+                content: `
+                    <p>Gol analizi yapıyorsanız, defansif liglerden uzak durmalısınız. Bazı liglerin DNA'sı hücuma kodlanmıştır.</p>
+                    
+                    <h3>Golcü Ligler (Genel İstatistiklere Göre)</h3>
+                    <ul>
+                        <li><strong>Hollanda Eredivisie & Eerste Divisie:</strong> Savunma disiplininin düşük, temponun yüksek olduğu liglerdir.</li>
+                        <li><strong>Almanya Bundesliga:</strong> Geçiş oyununun en iyi oynandığı, bol pozisyonlu ligdir.</li>
+                        <li><strong>Norveç & İsveç Ligleri:</strong> Yaz liglerinde sezon ortasında kondisyonlar üst seviyedeyken gol ortalamaları yükselir.</li>
+                        <li><strong>İsviçre Süper Ligi:</strong> 10 takımlı, birbirini tanıyan ve açık oynayan takımların ligidir.</li>
+                    </ul>
+                `
+            },
+            11: {
+                title: "Maç İçi Veri Okuma",
+                content: `
+                    <p>Canlı takip yaparken maçı izleyemiyorsanız, canlı istatistik paneli sizin gözünüzdür. Ancak hangi veriye bakmalısınız?</p>
+                    
+                    <ul>
+                        <li><strong>Tehlikeli Atak:</strong> Dakika başına düşen tehlikeli atak sayısı 1'in üzerindeyse baskı yüksektir.</li>
+                        <li><strong>Şut / İsabetli Şut Oranı:</strong> Bir takım sürekli şut çekiyor ama kaleyi bulamıyorsa baskı kuruyordur ama bitiricilik sorunu vardır. Gol gelmesi an meselesi olabilir.</li>
+                        <li><strong>Korner Sayısı:</strong> Arka arkaya kazanılan kornerler, topun rakip ceza sahasına hapsolduğunu gösterir.</li>
+                    </ul>
+                    <p>Özellikle maçın son 15 dakikasında, kaybeden favori takımın baskı verileri tavan yaptıysa "Sonraki Gol" seçeneği değerlendirilebilir.</p>
+                `
+            },
+            12: {
+                title: "Hava Koşullarının Maça Etkisi",
+                content: `
+                    <p>Deplasmana giden sıcak iklim takımları, soğuk ve karlı deplasmanlarda zorlanır. Ancak tek etken sıcaklık değildir.</p>
+                    
+                    <ul>
+                        <li><strong>Şiddetli Rüzgar:</strong> Pas oyununu bozar, uzun topa zorlar. Maçın alt bitme ihtimalini artırır. Kaleciler yan toplarda hata yapabilir.</li>
+                        <li><strong>Ağır Yağmur / Çamur:</strong> Topun zeminde ilerlemesi zorlaşır, teknik kapasitesi yüksek takımlar zorlanır. Mücadele gücü yüksek, fiziksel takımlar avantaj sağlar. Sürpriz sonuçlara açıktır.</li>
+                    </ul>
+                `
+            },
+            13: {
+                title: "Hakem İstatistiklerinin Önemi",
+                content: `
+                    <p>Maç analizi yaparken hakemi atlamayın. Hakem de sahadaki 23. oyuncudur ve oyunun kaderini değiştirebilir.</p>
+                    
+                    <ul>
+                        <li><strong>Kart Çıkarma Eğilimi:</strong> Bazı hakemler iletişimi sever, bazıları ise hemen karta başvurur. Kart ortalaması 5.5 olan bir hakem varsa ve maç derbiyse, kart seçenekleri ön plana çıkar.</li>
+                        <li><strong>Penaltı İstatistikleri:</strong> VAR döneminde penaltılar arttı ancak hala inisiyatif hakemdedir. Kolay penaltı çalan hakemlerin maçlarında skorun değişme ihtimali daha yüksektir.</li>
+                    </ul>
+                `
+            },
+            14: {
+                title: "Kadro Eksikleri ve Sakatlıklar",
+                content: `
+                    <p>Messi olmayan bir Barcelona ile Messi'li Barcelona aynı takım değildi. Takımların "kilit oyuncuları" vardır.</p>
+                    
+                    <p>Bir sol bekin eksikliği çok sorun olmayabilir ama takımın beyni olan oyun kurucunun ya da sezonda 20 gol atmış santraforun yokluğu, takımın gol beklentisini (xG) yarı yarıya düşürebilir. Analiz yapmadan önce mutlaka muhtemel 11'leri ve sakatlık listesini güvenilir kaynaklardan kontrol edin.</p>
+                `
+            },
+            15: {
+                title: "Derbi Maçlarında İstatistik Yanılgısı",
+                content: `
+                    <p>Derbiler, istatistiklerin çöpe atıldığı maçlardır. "Son 10 maçta yenilmedi" veya "Evinde çok güçlü" gibi veriler, derbi atmosferinde geçersiz kalabilir.</p>
+                    
+                    <p>Bu maçlarda psikolojik faktörler, taraftar baskısı ve anlık gerilimler ön plandadır. Favori çıkan takımın kaybettiği, kırmızı kartların havada uçuştuğu kaos ortamlarıdır. Bu yüzden derbi maçlarına yüklü girmek veya salt istatistiğe güvenmek en büyük analiz hatalarından biridir. Derbilerde "Kart" veya "Faul" sayılarına yönelmek daha mantıklı olabilir.</p>
+                `
+            }
+        };
+
+        // Modal Logic
+        const modalOverlay = document.getElementById('article-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        function openModal(id) {
+            const article = articles[id];
+            if (article) {
+                modalTitle.textContent = article.title;
+                modalBody.innerHTML = article.content;
+                modalOverlay.style.display = 'flex';
+                // Trigger reflow/opacity transition
+                setTimeout(() => {
+                    modalOverlay.classList.add('active');
+                }, 10);
+                document.body.style.overflow = 'hidden'; // Prevent scrolling bg
+            }
+        }
+
+        function closeModal(e) {
+            if (e.target === modalOverlay) {
+                closeModalBtn();
+            }
+        }
+
+        function closeModalBtn() {
+            modalOverlay.classList.remove('active');
+            setTimeout(() => {
+                modalOverlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Escape key to close
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") {
+                closeModalBtn();
+            }
+        });
+
+        // Auto-open modal based on URL parameter
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('article');
+            if (articleId && articles[articleId]) {
+                openModal(articleId);
+            }
+        });
+    </script>
+</body>
+
+</html>
