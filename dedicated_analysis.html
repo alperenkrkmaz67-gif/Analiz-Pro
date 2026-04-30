@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detaylı Analiz - Analiz Pro</title>
+    <title>DetaylÄ± Analiz - Analiz Pro</title>
     <link rel="stylesheet" href="style.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -393,7 +393,7 @@
         <div
             style="width:50px; height:50px; border:5px solid #f3f3f3; border-top:5px solid #3b82f6; border-radius:50%; animation:spin 1s linear infinite;">
         </div>
-        <span id="loading-text">Analiz Yapılıyor...</span>
+        <span id="loading-text">Analiz YapÄ±lÄ±yor...</span>
     </div>
 
 
@@ -402,13 +402,13 @@
         <div class="container">
             <nav style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
                 <!-- Back Button -->
-                <a href="index.html" class="btn btn-outline"
+                <a href="/" class="btn btn-outline"
                     style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                    ← Ana Sayfa
+                    â Ana Sayfa
                 </a>
 
                 <!-- Logo -->
-                <a href="index.html" class="logo"
+                <a href="/" class="logo"
                     style="font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
                     Analiz Pro
                 </a>
@@ -430,70 +430,70 @@
 
     <div class="split-layout">
         <aside class="sidebar-menu">
-            <button class="menu-btn" data-tab="iy_gol" onclick="switchTab('iy_gol')">İlk Yarı Gol Filtresi</button>
-            <button class="menu-btn" data-tab="ms_kg_ust" onclick="switchTab('ms_kg_ust')">KG-MS-ÜST Filtresi</button>
-            <button class="menu-btn" data-tab="iy_oran" onclick="switchTab('iy_oran')">İY Oran Filtresi</button>
+            <button class="menu-btn" data-tab="iy_gol" onclick="switchTab('iy_gol')">Ä°lk YarÄ± Gol Filtresi</button>
+            <button class="menu-btn" data-tab="ms_kg_ust" onclick="switchTab('ms_kg_ust')">KG-MS-ÃST Filtresi</button>
+            <button class="menu-btn" data-tab="iy_oran" onclick="switchTab('iy_oran')">Ä°Y Oran Filtresi</button>
         </aside>
 
         <main class="content-area">
             <div id="form-iy_gol" class="form-section">
                 <div class="analysis-form-card">
-                    <h2 style="margin-bottom: 1.5rem; text-align: center;">İlk Yarı Gol Filtresi</h2>
-                    <div class="input-group"><label class="input-label">2-3 Gol Oranı</label><input type="number"
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Ä°lk YarÄ± Gol Filtresi</h2>
+                    <div class="input-group"><label class="input-label">2-3 Gol OranÄ±</label><input type="number"
                             step="0.01" id="input-tg23" class="custom-input" placeholder="1.85"></div>
-                    <div class="input-group"><label class="input-label">4-5 Gol Oranı</label><input type="number"
+                    <div class="input-group"><label class="input-label">4-5 Gol OranÄ±</label><input type="number"
                             step="0.01" id="input-tg45" class="custom-input" placeholder="2.10"></div>
-                    <button class="action-btn" onclick="runAnalysis('iy_gol')">Analizi Başlat</button>
+                    <button class="action-btn" onclick="runAnalysis('iy_gol')">Analizi BaÅlat</button>
                 </div>
             </div>
 
             <div id="form-ms_kg_ust" class="form-section">
                 <div class="analysis-form-card">
-                    <h2 style="margin-bottom: 1.5rem; text-align: center;">KG-MS-ÜST Filtresi</h2>
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">KG-MS-ÃST Filtresi</h2>
                     <div class="input-group">
-                        <label class="input-label">MS Seçimi</label>
+                        <label class="input-label">MS SeÃ§imi</label>
                         <div style="display: flex; gap: 1.5rem;">
                             <label style="color: white;"><input type="radio" name="ms_choice" value="1" checked> MS
                                 1</label>
                             <label style="color: white;"><input type="radio" name="ms_choice" value="2"> MS 2</label>
                         </div>
                     </div>
-                    <div class="input-group"><label class="input-label">MS Oranı</label><input type="number" step="0.01"
+                    <div class="input-group"><label class="input-label">MS OranÄ±</label><input type="number" step="0.01"
                             id="input-ms" class="custom-input" placeholder="1.50"></div>
-                    <div class="input-group"><label class="input-label">KG VAR Oranı</label><input type="number"
+                    <div class="input-group"><label class="input-label">KG VAR OranÄ±</label><input type="number"
                             step="0.01" id="input-kg" class="custom-input" placeholder="1.70"></div>
-                    <div class="input-group"><label class="input-label">2.5 Üst Oranı</label><input type="number"
+                    <div class="input-group"><label class="input-label">2.5 Ãst OranÄ±</label><input type="number"
                             step="0.01" id="input-ust" class="custom-input" placeholder="1.85"></div>
-                    <button class="action-btn" onclick="runAnalysis('ms_kg_ust')">Analizi Başlat</button>
+                    <button class="action-btn" onclick="runAnalysis('ms_kg_ust')">Analizi BaÅlat</button>
                 </div>
             </div>
 
             <div id="form-iy_oran" class="form-section">
                 <div class="analysis-form-card">
-                    <h2 style="margin-bottom: 1.5rem; text-align: center;">İY Oran Filtresi</h2>
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Ä°Y Oran Filtresi</h2>
                     <div class="input-group">
-                        <label class="input-label">İY Seçimi</label>
+                        <label class="input-label">Ä°Y SeÃ§imi</label>
                         <div style="display: flex; gap: 1.5rem;">
-                            <label style="color: white;"><input type="radio" name="iy_choice" value="1" checked> İY
+                            <label style="color: white;"><input type="radio" name="iy_choice" value="1" checked> Ä°Y
                                 1</label>
-                            <label style="color: white;"><input type="radio" name="iy_choice" value="2"> İY 2</label>
+                            <label style="color: white;"><input type="radio" name="iy_choice" value="2"> Ä°Y 2</label>
                         </div>
                     </div>
-                    <div class="input-group"><label class="input-label">İY Oranı</label><input type="number" step="0.01"
+                    <div class="input-group"><label class="input-label">Ä°Y OranÄ±</label><input type="number" step="0.01"
                             id="input-iy" class="custom-input" placeholder="2.10"></div>
-                    <div class="input-group"><label class="input-label">Maç Tarihi</label><input type="date"
+                    <div class="input-group"><label class="input-label">MaÃ§ Tarihi</label><input type="date"
                             id="input-date" class="custom-input"></div>
-                    <button class="action-btn" onclick="runAnalysis('iy_oran')">Analizi Başlat</button>
+                    <button class="action-btn" onclick="runAnalysis('iy_oran')">Analizi BaÅlat</button>
                 </div>
             </div>
 
             <div id="results-area" style="display: none; margin-top: 1rem;">
                 <div
                     style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-                    <h2 id="analysis-title" style="margin: 0;">Analiz Sonuçları</h2>
+                    <h2 id="analysis-title" style="margin: 0;">Analiz SonuÃ§larÄ±</h2>
                     <div style="display: flex; gap: 0.75rem;">
-                        <button class="btn btn-outline" id="col-settings-btn" style="padding: 0.6rem 1.2rem;">⚙️
-                            Seçenekler</button>
+                        <button class="btn btn-outline" id="col-settings-btn" style="padding: 0.6rem 1.2rem;">âï¸
+                            SeÃ§enekler</button>
                         <button class="btn btn-primary" onclick="resetForm()" style="padding: 0.6rem 1.2rem;">Yeni
                             Analiz</button>
                     </div>
@@ -510,7 +510,7 @@
         style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
         <div style="background:#1e293b; padding:2rem; border-radius:12px; width:90%; max-width:500px;">
             <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">
-                <h3>Sütun Ayarları</h3>
+                <h3>SÃ¼tun AyarlarÄ±</h3>
                 <span id="close-col-modal" style="cursor:pointer; font-size:1.5rem;">&times;</span>
             </div>
             <div id="col-toggles-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;"></div>
@@ -527,7 +527,7 @@
     <div id="match-detail-modal" class="detail-modal">
         <div class="detail-header">
             <div class="match-card-header">
-                <h3 id="detail-title">Takım A - Takım B</h3>
+                <h3 id="detail-title">TakÄ±m A - TakÄ±m B</h3>
                 <div id="detail-subtitle" class="match-card-subtitle">12.01.24 | Premier Lig</div>
             </div>
             <button class="btn-close" onclick="toggleDetailModal(false)">
@@ -547,15 +547,15 @@
     <footer class="footer" style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding: 1rem 0;">
         <div class="container" style="text-align: center;">
             <div class="badge-18" style="justify-content: center; margin-bottom: 0.5rem;">
-                <span>🔞</span>
-                <span>Bu site 18 yaş ve üzeri içindir.</span>
+                <span>ð</span>
+                <span>Bu site 18 yaÅ ve Ã¼zeri iÃ§indir.</span>
             </div>
             <p style="margin: 0.5rem 0; color: var(--secondary-color); font-size: 0.8rem;">
-                Sitemiz bahis sitesi değildir, sadece analiz sunar.
+                Sitemiz bahis sitesi deÄildir, sadece analiz sunar.
             </p>
-            <p style="font-size: 0.85rem; color: var(--secondary-color);">&copy; 2026 Analiz Pro. Tüm hakları saklıdır.
+            <p style="font-size: 0.85rem; color: var(--secondary-color);">&copy; 2026 Analiz Pro. TÃ¼m haklarÄ± saklÄ±dÄ±r.
                 |
-                <a href="about.html" style="color: var(--secondary-color);">Hakkımızda</a> |
+                <a href="about.html" style="color: var(--secondary-color);">HakkÄ±mÄ±zda</a> |
                 <a href="legal.html" style="color: var(--secondary-color);">Gizlilik</a>
             </p>
         </div>
@@ -596,8 +596,8 @@
 
             // Check if Closing Data is available
             if (!ExcelLoader.hasClosing()) {
-                alert('⚠️ UYARI: Kapanış verisi yüklü değil! Analiz yapabilmek için önce ana sayfadan veri yüklemelisiniz.');
-                window.location.href = 'index.html';
+                alert('â ï¸ UYARI: KapanÄ±Å verisi yÃ¼klÃ¼ deÄil! Analiz yapabilmek iÃ§in Ã¶nce ana sayfadan veri yÃ¼klemelisiniz.');
+                window.location.href = '/';
                 return;
             }
 
@@ -644,7 +644,7 @@
                         // Both Teams Score - 12: KG Var
                         kg_var: getVal('kg_var', 12),
 
-                        // Over 2.5 - 22: 2.5 Üst (corrected mapping)
+                        // Over 2.5 - 22: 2.5 Ãst (corrected mapping)
                         ms25_ust: getVal('ms25_ust', 22),
 
                         // Half Time - 9: IY1, 11: IY2
@@ -670,7 +670,7 @@
 
             if (ExcelLoader.isLoaded() && ExcelLoader.hasClosing()) {
                 const count = ExcelLoader.getClosingCount();
-                textSpan.innerText = `Kapanış Verisi (${count} maç)`;
+                textSpan.innerText = `KapanÄ±Å Verisi (${count} maÃ§)`;
                 // Reset styles to success
                 container.style.borderColor = 'rgba(16, 185, 129, 0.2)';
                 container.style.background = 'rgba(16, 185, 129, 0.1)';
@@ -711,7 +711,7 @@
                 if (isNaN(inputs.iy) || !inputs.date) inputsValid = false;
             }
 
-            if (!inputsValid) { alert('Hatalı giriş!'); return; }
+            if (!inputsValid) { alert('HatalÄ± giriÅ!'); return; }
 
             loadingIndicator.style.display = 'flex';
             await new Promise(r => setTimeout(r, 100));
@@ -719,7 +719,7 @@
             try {
                 // Ensure data is active
                 if (!window.matchData || window.matchData.length === 0) {
-                    alert('Veri yüklü değil!');
+                    alert('Veri yÃ¼klÃ¼ deÄil!');
                     loadingIndicator.style.display = 'none';
                     return;
                 }
@@ -757,7 +757,7 @@
                 renderResults(results, sourceData.length, type);
             } catch (err) {
                 console.error(err);
-                alert("Hata oluştu!");
+                alert("Hata oluÅtu!");
             } finally {
                 loadingIndicator.style.display = 'none';
             }
@@ -769,7 +769,7 @@
             const container = document.querySelector('.result-container');
 
             if (matches.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:3rem; opacity:0.6;"><h3>Eşleşen Maç Bulunamadı</h3></div>`;
+                container.innerHTML = `<div style="text-align:center; padding:3rem; opacity:0.6;"><h3>EÅleÅen MaÃ§ BulunamadÄ±</h3></div>`;
                 return;
             }
 
@@ -777,12 +777,12 @@
             const badge = (c, t) => `<span class="${c}">${t}</span>`;
 
             let table = `<div class="analysis-table-container"><table class="analysis-table"><thead><tr>
-                <th>Tarih</th><th>Lig</th><th style="text-align:left;">Maç</th><th>IY</th><th>MS</th>
-                <th class="col-iy05">İY 0.5</th><th class="col-iy15">İY 1.5</th><th class="col-ms15">MS 1.5</th>
+                <th>Tarih</th><th>Lig</th><th style="text-align:left;">MaÃ§</th><th>IY</th><th>MS</th>
+                <th class="col-iy05">Ä°Y 0.5</th><th class="col-iy15">Ä°Y 1.5</th><th class="col-ms15">MS 1.5</th>
                 <th class="col-ms25">MS 2.5</th><th class="col-ms35">MS 3.5</th><th class="col-ms45">MS 4.5</th>
                 <th class="col-ev05">Ev 0.5</th><th class="col-ev15">Ev 1.5</th><th class="col-dep05">Dep 0.5</th>
-                <th class="col-dep15">Dep 1.5</th><th class="col-iykg">İY KG</th><th class="col-mskg">MS KG</th>
-                <th class="col-iyres">İY S</th><th class="col-msres">MS S</th><th class="col-tg">TG</th>
+                <th class="col-dep15">Dep 1.5</th><th class="col-iykg">Ä°Y KG</th><th class="col-mskg">MS KG</th>
+                <th class="col-iyres">Ä°Y S</th><th class="col-msres">MS S</th><th class="col-tg">TG</th>
             </tr></thead><tbody>`;
 
             // Helper to safely display values
@@ -799,19 +799,19 @@
                 const sumFT = ft[0] + ft[1];
                 const sumHT = ht[0] + ht[1];
 
-                table += `<tr onclick="showMatchDetailById(${m.id})" title="Detayları gör" class="match-row-hover" style="cursor: pointer;">
+                table += `<tr onclick="showMatchDetailById(${m.id})" title="DetaylarÄ± gÃ¶r" class="match-row-hover" style="cursor: pointer;">
                     <td>${safeVal(m.date)}</td><td>${safeVal(m.league)}</td><td style="text-align:left;">${safeVal(m.homeTeam)} - ${safeVal(m.awayTeam)}</td>
                     <td>${safeVal(scoreHT)}</td><td><strong>${safeVal(scoreFT)}</strong></td>
-                    <td class="col-iy05">${sumHT > 0.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-iy15">${sumHT > 1.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-ms15">${sumFT > 1.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-ms25">${sumFT > 2.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-ms35">${sumFT > 3.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-ms45">${sumFT > 4.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-ev05">${ft[0] > 0.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-ev15">${ft[0] > 1.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-dep05">${ft[1] > 0.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
-                    <td class="col-dep15">${ft[1] > 1.5 ? badge('bet-win', 'ÜST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-iy05">${sumHT > 0.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-iy15">${sumHT > 1.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-ms15">${sumFT > 1.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-ms25">${sumFT > 2.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-ms35">${sumFT > 3.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-ms45">${sumFT > 4.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-ev05">${ft[0] > 0.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-ev15">${ft[0] > 1.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-dep05">${ft[1] > 0.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
+                    <td class="col-dep15">${ft[1] > 1.5 ? badge('bet-win', 'ÃST') : badge('bet-loss', 'ALT')}</td>
                     <td class="col-iykg">${(ht[0] > 0 && ht[1] > 0) ? badge('bet-win', 'VAR') : badge('bet-loss', 'YOK')}</td>
                     <td class="col-mskg">${(ft[0] > 0 && ft[1] > 0) ? badge('bet-win', 'VAR') : badge('bet-loss', 'YOK')}</td>
                     <td class="col-iyres">${ht[0] > ht[1] ? '<span style="background:#10b981; color:white; padding:4px 8px; border-radius:4px; font-weight:600;">1</span>' :
@@ -836,13 +836,13 @@
 
         const COLUMN_MAP = {
             6: 'MS 1', 7: 'MS 0', 8: 'MS 2',
-            9: 'İY 1', 10: 'İY 0', 11: 'İY 2',
+            9: 'Ä°Y 1', 10: 'Ä°Y 0', 11: 'Ä°Y 2',
             12: 'KG Var', 13: 'KG Yok',
-            14: 'CŞ 1-X', 15: 'CŞ 1-2', 16: 'CŞ X-2',
-            17: 'İY 1.5 Alt', 18: 'İY 1.5 Üst',
-            19: 'MS 1.5 Alt', 20: 'MS 1.5 Üst',
-            21: 'MS 2.5 Alt', 22: 'MS 2.5 Üst',
-            23: 'MS 3.5 Alt', 24: 'MS 3.5 Üst',
+            14: 'CÅ 1-X', 15: 'CÅ 1-2', 16: 'CÅ X-2',
+            17: 'Ä°Y 1.5 Alt', 18: 'Ä°Y 1.5 Ãst',
+            19: 'MS 1.5 Alt', 20: 'MS 1.5 Ãst',
+            21: 'MS 2.5 Alt', 22: 'MS 2.5 Ãst',
+            23: 'MS 3.5 Alt', 24: 'MS 3.5 Ãst',
             25: 'TG 0-1', 26: 'TG 2-3', 27: 'TG 4-5', 28: 'TG 6+'
         };
 
@@ -866,7 +866,7 @@
             for (let i = 0; i <= 100; i++) {
                 const val = match[i];
                 if (val !== undefined && val !== null && val !== '') {
-                    const label = COLUMN_MAP[i] || `Sütun ${i}`;
+                    const label = COLUMN_MAP[i] || `SÃ¼tun ${i}`;
                     const div = document.createElement('div');
                     div.className = 'detail-item';
                     div.innerHTML = `
@@ -898,13 +898,13 @@
         }
 
         const cols = [
-            { id: 'col-iy05', label: 'İY 0.5' }, { id: 'col-iy15', label: 'İY 1.5' },
+            { id: 'col-iy05', label: 'Ä°Y 0.5' }, { id: 'col-iy15', label: 'Ä°Y 1.5' },
             { id: 'col-ms15', label: 'MS 1.5' }, { id: 'col-ms25', label: 'MS 2.5' },
             { id: 'col-ms35', label: 'MS 3.5' }, { id: 'col-ms45', label: 'MS 4.5' },
             { id: 'col-ev05', label: 'Ev 0.5' }, { id: 'col-ev15', label: 'Ev 1.5' },
             { id: 'col-dep05', label: 'Dep 0.5' }, { id: 'col-dep15', label: 'Dep 1.5' },
-            { id: 'col-iykg', label: 'İY KG' }, { id: 'col-mskg', label: 'MS KG' },
-            { id: 'col-iyres', label: 'İY S' }, { id: 'col-msres', label: 'MS S' }, { id: 'col-tg', label: 'TG' }
+            { id: 'col-iykg', label: 'Ä°Y KG' }, { id: 'col-mskg', label: 'MS KG' },
+            { id: 'col-iyres', label: 'Ä°Y S' }, { id: 'col-msres', label: 'MS S' }, { id: 'col-tg', label: 'TG' }
         ];
 
         function setupColumnSettings() {
@@ -937,12 +937,12 @@
             setupColumnSettings();
 
             // Explicitly restore data from IndexedDB
-            console.log("🔄 Detaylı Analiz: IndexedDB'den veri yükleniyor...");
+            console.log("ð DetaylÄ± Analiz: IndexedDB'den veri yÃ¼kleniyor...");
             try {
                 const restored = await ExcelLoader.restoreFromIndexedDB();
-                console.log("✅ Restore Result:", restored);
+                console.log("â Restore Result:", restored);
             } catch (e) {
-                console.error("❌ Restore Error:", e);
+                console.error("â Restore Error:", e);
             }
 
             // Update data status indicator
@@ -957,15 +957,15 @@
 
                     if (dataArray.length > 0) {
                         indexedMatches = indexData(dataArray);
-                        console.log(`📊 ${indexedMatches.length} maç indexlendi`);
+                        console.log(`ð ${indexedMatches.length} maÃ§ indexlendi`);
                     } else {
-                        console.warn("⚠️ Veri boş veya hatalı format.");
+                        console.warn("â ï¸ Veri boÅ veya hatalÄ± format.");
                     }
                 } catch (e) {
-                    console.error('Veri indexleme hatası:', e);
+                    console.error('Veri indexleme hatasÄ±:', e);
                 }
             } else {
-                console.warn("⚠️ Veri yüklü değil.");
+                console.warn("â ï¸ Veri yÃ¼klÃ¼ deÄil.");
             }
         });
     </script>

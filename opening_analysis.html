@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Açılış Oranları Analizi - Analiz Pro</title>
+    <title>AÃ§Ä±lÄ±Å OranlarÄ± Analizi - Analiz Pro</title>
     <link rel="stylesheet" href="style.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -120,13 +120,13 @@
         <div class="container">
             <nav style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
                 <!-- Back Button -->
-                <a href="index.html" class="btn btn-outline"
+                <a href="/" class="btn btn-outline"
                     style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                    ← Ana Sayfa
+                    â Ana Sayfa
                 </a>
 
                 <!-- Logo -->
-                <a href="index.html" class="logo"
+                <a href="/" class="logo"
                     style="font-size: 1.3rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
                     Analiz Pro
                 </a>
@@ -171,23 +171,23 @@
             </div>
 
             <div class="form-group" style="margin-bottom:1.5rem;">
-                <label class="form-label" style="display:block; color:#ccc; margin-bottom:0.5rem;">Tarih Seçimi</label>
+                <label class="form-label" style="display:block; color:#ccc; margin-bottom:0.5rem;">Tarih SeÃ§imi</label>
                 <input type="date" id="date-selector" class="custom-input">
             </div>
 
             <div class="form-group" style="margin-bottom:1.5rem;">
-                <label class="form-label" style="display:block; color:#ccc; margin-bottom:0.5rem;">Karşılaşma
-                    Seçimi</label>
+                <label class="form-label" style="display:block; color:#ccc; margin-bottom:0.5rem;">KarÅÄ±laÅma
+                    SeÃ§imi</label>
                 <div class="match-select-container" style="position: relative;">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <button id="prev-match-btn" class="btn btn-outline"
-                            style="padding: 0.8rem; flex-shrink: 0;">←</button>
+                            style="padding: 0.8rem; flex-shrink: 0;">â</button>
                         <div id="match-select-btn" class="match-select-btn" style="flex: 1;">
-                            <span id="match-select-text">Yükleniyor...</span>
-                            <span>▼</span>
+                            <span id="match-select-text">YÃ¼kleniyor...</span>
+                            <span>â¼</span>
                         </div>
                         <button id="next-match-btn" class="btn btn-outline"
-                            style="padding: 0.8rem; flex-shrink: 0;">→</button>
+                            style="padding: 0.8rem; flex-shrink: 0;">â</button>
                     </div>
                     <div id="match-dropdown-list" class="match-dropdown-list"></div>
                 </div>
@@ -197,35 +197,35 @@
                 <div class="form-group"
                     style="margin-bottom:1.5rem; margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1);">
                     <label class="form-label" style="display:block; color:#ccc; margin-bottom:0.5rem;">Oran
-                        Seçimi</label>
+                        SeÃ§imi</label>
                     <select id="odds-type-select" class="custom-input" onchange="analyzeOdds()">
-                        <option value="" selected disabled>Analiz Türü Seçiniz</option>
-                        <optgroup label="Maç Sonucu">
+                        <option value="" selected disabled>Analiz TÃ¼rÃ¼ SeÃ§iniz</option>
+                        <optgroup label="MaÃ§ Sonucu">
                             <option value="ms1">MS 1</option>
                             <option value="ms0">MS 0</option>
                             <option value="ms2">MS 2</option>
                         </optgroup>
-                        <optgroup label="İlk Yarı">
-                            <option value="iy1">İY 1</option>
-                            <option value="iy0">İY 0</option>
-                            <option value="iy2">İY 2</option>
+                        <optgroup label="Ä°lk YarÄ±">
+                            <option value="iy1">Ä°Y 1</option>
+                            <option value="iy0">Ä°Y 0</option>
+                            <option value="iy2">Ä°Y 2</option>
                         </optgroup>
-                        <optgroup label="Karşılıklı Gol">
+                        <optgroup label="KarÅÄ±lÄ±klÄ± Gol">
                             <option value="kg_var">KG Var</option>
                             <option value="kg_yok">KG Yok</option>
                         </optgroup>
-                        <optgroup label="Handikaplı MS">
+                        <optgroup label="HandikaplÄ± MS">
                             <option value="handicap_1">Hnd. MS 1</option>
                             <option value="handicap_0">Hnd. MS 0</option>
                             <option value="handicap_2">Hnd. MS 2</option>
                         </optgroup>
-                        <optgroup label="Alt/Üst">
-                            <option value="iy15_alt">İY 1.5 Alt</option>
-                            <option value="iy15_ust">İY 1.5 Üst</option>
+                        <optgroup label="Alt/Ãst">
+                            <option value="iy15_alt">Ä°Y 1.5 Alt</option>
+                            <option value="iy15_ust">Ä°Y 1.5 Ãst</option>
                             <option value="ms25_alt">MS 2.5 Alt</option>
-                            <option value="ms25_ust">MS 2.5 Üst</option>
+                            <option value="ms25_ust">MS 2.5 Ãst</option>
                             <option value="ms35_alt">MS 3.5 Alt</option>
-                            <option value="ms35_ust">MS 3.5 Üst</option>
+                            <option value="ms35_ust">MS 3.5 Ãst</option>
                         </optgroup>
                         <optgroup label="Toplam Gol">
                             <option value="tg_01">TG 0-1</option>
@@ -233,7 +233,7 @@
                             <option value="tg_45">TG 4-5</option>
                             <option value="tg_6plus">TG 6+</option>
                         </optgroup>
-                        <optgroup label="İY / MS">
+                        <optgroup label="Ä°Y / MS">
                             <option value="htft_11">1/1</option>
                             <option value="htft_10">1/0</option>
                             <option value="htft_12">1/2</option>
@@ -254,7 +254,7 @@
 
                 <div id="db-status-text"
                     style="font-size: 0.75rem; text-align: center; margin-top: 2rem; color: var(--secondary-color);">
-                    Açılış Oranları Aktif.
+                    AÃ§Ä±lÄ±Å OranlarÄ± Aktif.
                 </div>
             </div>
         </aside>
@@ -263,13 +263,13 @@
         <main class="results-panel" style="position:relative;">
             <button id="sidebar-toggle-btn" onclick="toggleSidebar()"
                 style="position:absolute; top:0; left:-15px; z-index:10; background:var(--primary-color); border:none; color:white; width:30px; height:30px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 10px rgba(0,0,0,0.3); font-size:1.2rem; transition:left 0.3s;">
-                ‹
+                â¹
             </button>
             <div class="result-container" id="result-box">
                 <div style="text-align: center; opacity: 0.5; padding: 3rem;">
-                    <div style="font-size: 3rem;">📈</div>
-                    <h3>Analiz İçin Maç Seçin</h3>
-                    <p>Önce "Karşılaşma Seçimi", sonra "Oran Seçimi" yapınız.</p>
+                    <div style="font-size: 3rem;">ð</div>
+                    <h3>Analiz Ä°Ã§in MaÃ§ SeÃ§in</h3>
+                    <p>Ãnce "KarÅÄ±laÅma SeÃ§imi", sonra "Oran SeÃ§imi" yapÄ±nÄ±z.</p>
                 </div>
             </div>
         </main>
@@ -459,8 +459,8 @@
                 loadDate(today);
 
             } else {
-                alert('⚠️ UYARI: Açılış verisi yüklü değil! Analiz yapabilmek için önce ana sayfadan veri yüklemelisiniz.');
-                window.location.href = 'index.html';
+                alert('â ï¸ UYARI: AÃ§Ä±lÄ±Å verisi yÃ¼klÃ¼ deÄil! Analiz yapabilmek iÃ§in Ã¶nce ana sayfadan veri yÃ¼klemelisiniz.');
+                window.location.href = '/';
             }
         };
 
@@ -470,7 +470,7 @@
             if (!textSpan || !container) return;
 
             if (ExcelLoader.hasOpening()) {
-                textSpan.innerText = `Açılış Verisi (${ExcelLoader.getOpeningCount()} maç)`;
+                textSpan.innerText = `AÃ§Ä±lÄ±Å Verisi (${ExcelLoader.getOpeningCount()} maÃ§)`;
                 container.style.borderColor = 'rgba(16, 185, 129, 0.2)';
                 container.style.background = 'rgba(16, 185, 129, 0.1)';
                 textSpan.style.color = '#10b981';
@@ -513,9 +513,9 @@
             list.innerHTML = '';
 
             if (matchesForSelectedDate.length === 0) {
-                btnText.innerText = 'Maç Bulunamadı';
+                btnText.innerText = 'MaÃ§ BulunamadÄ±';
 
-                list.innerHTML = '<div class="match-option" style="cursor:default;">Bu tarihte maç yok.</div>';
+                list.innerHTML = '<div class="match-option" style="cursor:default;">Bu tarihte maÃ§ yok.</div>';
                 selectedMatch = null;
                 return;
             }
@@ -531,7 +531,7 @@
 
             const searchInput = document.createElement('input');
             searchInput.type = 'text';
-            searchInput.placeholder = 'Maç Ara...';
+            searchInput.placeholder = 'MaÃ§ Ara...';
             searchInput.className = 'custom-input';
             searchInput.style.width = '100%';
             searchInput.style.padding = '6px';
@@ -553,7 +553,7 @@
             // Sort by time if time exists (usually in league or date field? or separate?)
             // Assuming order in excel is roughly chronological or by league.
 
-            btnText.innerText = 'Maç Seçiniz';
+            btnText.innerText = 'MaÃ§ SeÃ§iniz';
 
             matchesForSelectedDate.forEach(match => {
                 const div = document.createElement('div');
@@ -605,22 +605,22 @@
                             </div>
                             
                             <div>
-                                <div style="font-size:0.8rem; color:#aaa;">İY 1</div>
+                                <div style="font-size:0.8rem; color:#aaa;">Ä°Y 1</div>
                                 <div style="font-weight:bold; color:white;">${match.iy1 || '-'}</div>
                             </div>
                              <div>
-                                <div style="font-size:0.8rem; color:#aaa;">İY 0</div>
+                                <div style="font-size:0.8rem; color:#aaa;">Ä°Y 0</div>
                                 <div style="font-weight:bold; color:white;">${match.iy0 || '-'}</div>
                             </div>
                              <div>
-                                <div style="font-size:0.8rem; color:#aaa;">İY 2</div>
+                                <div style="font-size:0.8rem; color:#aaa;">Ä°Y 2</div>
                                 <div style="font-weight:bold; color:white;">${match.iy2 || '-'}</div>
                             </div>
                         </div>
                     </div>
 
                     <div style="text-align:center; padding:2rem; border-top:1px solid rgba(255,255,255,0.1);">
-                        <p style="color:#ccc;">Bu maç için bir analiz kriteri seçiniz (Sol menü).</p>
+                        <p style="color:#ccc;">Bu maÃ§ iÃ§in bir analiz kriteri seÃ§iniz (Sol menÃ¼).</p>
                     </div>
                 `;
             }
@@ -673,7 +673,7 @@
             const display = document.getElementById('selected-odds-value');
 
             if (!selectedMatch) {
-                alert('Lütfen önce bir maç seçiniz.');
+                alert('LÃ¼tfen Ã¶nce bir maÃ§ seÃ§iniz.');
                 select.value = "";
                 return;
             }
@@ -688,7 +688,7 @@
                 document.getElementById('result-box').innerHTML = `
                     <div style="text-align:center; padding:3rem; opacity:0.7;">
                         <h3>Veri Yok</h3>
-                        <p>Seçilen maçta bu oran türü (${typeText}) için veri bulunamadı.</p>
+                        <p>SeÃ§ilen maÃ§ta bu oran tÃ¼rÃ¼ (${typeText}) iÃ§in veri bulunamadÄ±.</p>
                         <hr style="margin:1rem 0; border-color:rgba(255,255,255,0.1);">
                         <p style="font-size:0.7rem; color:#aaa; overflow-wrap:break-word;">
                             Mevcut Veriler: <br> ${availableKeys}
@@ -715,15 +715,15 @@
             if (matches.length === 0) {
                 resultBox.innerHTML = `
                     <div style="text-align:center; padding:3rem; opacity:0.7;">
-                        <h3>Eşleşme Yok</h3>
-                        <p>${oddsValue} oranına sahip başka maç bulunamadı.</p>
+                        <h3>EÅleÅme Yok</h3>
+                        <p>${oddsValue} oranÄ±na sahip baÅka maÃ§ bulunamadÄ±.</p>
                     </div>`;
                 return;
             }
 
             let html = `
                 <div style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
-                    <h3 style="margin:0;">Analiz Sonucu: ${matches.length} Maç</h3>
+                    <h3 style="margin:0;">Analiz Sonucu: ${matches.length} MaÃ§</h3>
                     <div style="background:rgba(16, 185, 129, 0.2); color:#10b981; padding:0.2rem 0.8rem; border-radius:4px; font-weight:bold;">
                         ${typeName}: ${oddsValue}
                     </div>
@@ -735,10 +735,10 @@
                             <tr>
                                 <th style="padding:0.8rem; text-align:left;">Tarih</th>
                                 <th style="padding:0.8rem; text-align:left;">Lig</th>
-                                <th style="padding:0.8rem; text-align:left;">Maç</th>
-                                <th style="padding:0.8rem; text-align:center;">İY</th>
+                                <th style="padding:0.8rem; text-align:left;">MaÃ§</th>
+                                <th style="padding:0.8rem; text-align:center;">Ä°Y</th>
                                 <th style="padding:0.8rem; text-align:center;">MS</th>
-                                <th style="padding:0.8rem; text-align:center;">Sonuç</th>
+                                <th style="padding:0.8rem; text-align:center;">SonuÃ§</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -753,7 +753,7 @@
                 const resultDisplay = isPlayed ? `<span style="padding:2px 6px; border-radius:4px; background:#334155;">MS TBD</span>` : '-';
 
                 html += `
-                    <tr onclick="showMatchDetailById(${m.id})" style="background:${bg}; border-bottom:1px solid rgba(255,255,255,0.05); cursor: pointer;" title="Detaylar için tıkla">
+                    <tr onclick="showMatchDetailById(${m.id})" style="background:${bg}; border-bottom:1px solid rgba(255,255,255,0.05); cursor: pointer;" title="Detaylar iÃ§in tÄ±kla">
                         <td style="padding:0.8rem;">${m.date}</td>
                         <td style="padding:0.8rem; color:#aaa;">${m.league || '-'}</td>
                         <td style="padding:0.8rem;">
@@ -794,7 +794,7 @@
             const display = document.getElementById('selected-odds-value');
 
             if (!selectedMatch) {
-                alert('Lütfen önce bir maç seçiniz.');
+                alert('LÃ¼tfen Ã¶nce bir maÃ§ seÃ§iniz.');
                 select.value = "";
                 return;
             }
@@ -802,7 +802,7 @@
             if (!type) {
                 document.getElementById('result-box').innerHTML = `
                 <div style="text-align:center; padding:2rem; border-top:1px solid rgba(255,255,255,0.1);">
-                    <p style="color:#ccc;">Bu maç için bir analiz kriteri seçiniz (Sol menü).</p>
+                    <p style="color:#ccc;">Bu maÃ§ iÃ§in bir analiz kriteri seÃ§iniz (Sol menÃ¼).</p>
                 </div>`;
                 return;
             }
@@ -818,7 +818,7 @@
                 document.getElementById('result-box').innerHTML = `
                     <div style="text-align:center; padding:3rem; opacity:0.7;">
                         <h3>Veri Yok</h3>
-                        <p>Seçilen maçta bu oran türü (${typeText}) için veri bulunamadı.</p>
+                        <p>SeÃ§ilen maÃ§ta bu oran tÃ¼rÃ¼ (${typeText}) iÃ§in veri bulunamadÄ±.</p>
                         <hr style="margin:1rem 0; border-color:rgba(255,255,255,0.1);">
                         <p style="font-size:0.7rem; color:#aaa; overflow-wrap:break-word;">
                              Mevcut Veriler: <br> ${availableKeys}
@@ -863,8 +863,8 @@
 
             // IY Stats (if score_ht exists)
             if (iy) {
-                stats.iy05 = iy.total > 0.5 ? 'ÜST' : 'ALT';
-                stats.iy15 = iy.total > 1.5 ? 'ÜST' : 'ALT';
+                stats.iy05 = iy.total > 0.5 ? 'ÃST' : 'ALT';
+                stats.iy15 = iy.total > 1.5 ? 'ÃST' : 'ALT';
                 stats.iykg = (iy.h > 0 && iy.a > 0) ? 'VAR' : 'YOK';
                 stats.iys = iy.h > iy.a ? '1' : (iy.h < iy.a ? '2' : '0');
             } else {
@@ -872,16 +872,16 @@
             }
 
             // MS Stats
-            stats.ms15 = ms.total > 1.5 ? 'ÜST' : 'ALT';
-            stats.ms25 = ms.total > 2.5 ? 'ÜST' : 'ALT';
-            stats.ms35 = ms.total > 3.5 ? 'ÜST' : 'ALT';
-            stats.ms45 = ms.total > 4.5 ? 'ÜST' : 'ALT';
+            stats.ms15 = ms.total > 1.5 ? 'ÃST' : 'ALT';
+            stats.ms25 = ms.total > 2.5 ? 'ÃST' : 'ALT';
+            stats.ms35 = ms.total > 3.5 ? 'ÃST' : 'ALT';
+            stats.ms45 = ms.total > 4.5 ? 'ÃST' : 'ALT';
 
-            stats.ev05 = ms.h > 0.5 ? 'ÜST' : 'ALT';
-            stats.ev15 = ms.h > 1.5 ? 'ÜST' : 'ALT';
+            stats.ev05 = ms.h > 0.5 ? 'ÃST' : 'ALT';
+            stats.ev15 = ms.h > 1.5 ? 'ÃST' : 'ALT';
 
-            stats.dep05 = ms.a > 0.5 ? 'ÜST' : 'ALT';
-            stats.dep15 = ms.a > 1.5 ? 'ÜST' : 'ALT';
+            stats.dep05 = ms.a > 0.5 ? 'ÃST' : 'ALT';
+            stats.dep15 = ms.a > 1.5 ? 'ÃST' : 'ALT';
 
             stats.mskg = (ms.h > 0 && ms.a > 0) ? 'VAR' : 'YOK';
             stats.mss = ms.h > ms.a ? '1' : (ms.h < ms.a ? '2' : '0');
@@ -964,14 +964,14 @@
             // --- Header Controls ---
             let headerHtml = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:1rem;">
-                    <h3 style="margin:0;">Analiz Sonuçları (- Maç)</h3>
+                    <h3 style="margin:0;">Analiz SonuÃ§larÄ± (- MaÃ§)</h3>
                     <div style="display:flex; gap:0.5rem; align-items:center;">
                         <input type="date" id="filter-start-date" class="custom-input" style="padding:0.4rem; width:130px;" value="${startDate || ''}">
                         <span style="color:#aaa;">-</span>
                         <input type="date" id="filter-end-date" class="custom-input" style="padding:0.4rem; width:130px;" value="${endDate || ''}">
                         <button onclick="filterAndRender()" class="btn btn-primary" style="padding:0.4rem 1rem; font-size:0.9rem;">Uygula</button>
                         <button onclick="clearDateFilter()" class="btn btn-outline" style="padding:0.4rem 1rem; font-size:0.9rem;">Temizle</button>
-                        <button onclick="toggleOptionsModal()" class="action-btn" style="padding:0.4rem 1rem; font-size:0.9rem;">⚙️ Seçenekler</button>
+                        <button onclick="toggleOptionsModal()" class="action-btn" style="padding:0.4rem 1rem; font-size:0.9rem;">âï¸ SeÃ§enekler</button>
                     </div>
 
                 </div>
@@ -979,13 +979,13 @@
 
 
             if (validMatches.length === 0) {
-                headerHtml = headerHtml.replace('(- Maç)', `(0 Maç)`);
-                resultBox.innerHTML = headerHtml + `<div style="text-align:center; padding:3rem; color:#aaa;">Bu tarih aralığında eşleşme bulunamadı.</div>`;
+                headerHtml = headerHtml.replace('(- MaÃ§)', `(0 MaÃ§)`);
+                resultBox.innerHTML = headerHtml + `<div style="text-align:center; padding:3rem; color:#aaa;">Bu tarih aralÄ±ÄÄ±nda eÅleÅme bulunamadÄ±.</div>`;
                 return;
             }
 
             // Update Header Count safely
-            headerHtml = headerHtml.replace('(- Maç)', `(${validMatches.length} Maç)`);
+            headerHtml = headerHtml.replace('(- MaÃ§)', `(${validMatches.length} MaÃ§)`);
 
             // --- Table ---
             let tableHtml = `
@@ -996,12 +996,12 @@
                         <tr>
                             <th style="padding:15px; text-align:left;">Tarih</th>
                             <th style="padding:15px; text-align:left;">Lig</th>
-                            <th style="padding:15px; text-align:left;">Maç</th>
-                            <th style="padding:15px; text-align:center;">İY</th>
+                            <th style="padding:15px; text-align:left;">MaÃ§</th>
+                            <th style="padding:15px; text-align:center;">Ä°Y</th>
                             <th style="padding:15px; text-align:center;">MS</th>
                             
-                            ${columnVisibility.iy05 ? '<th style="text-align:center; color:#3b82f6;">İY 0.5</th>' : ''}
-                            ${columnVisibility.iy15 ? '<th style="text-align:center; color:#3b82f6;">İY 1.5</th>' : ''}
+                            ${columnVisibility.iy05 ? '<th style="text-align:center; color:#3b82f6;">Ä°Y 0.5</th>' : ''}
+                            ${columnVisibility.iy15 ? '<th style="text-align:center; color:#3b82f6;">Ä°Y 1.5</th>' : ''}
                             ${columnVisibility.ms15 ? '<th style="text-align:center;">MS 1.5</th>' : ''}
                             ${columnVisibility.ms25 ? '<th style="text-align:center;">MS 2.5</th>' : ''}
                             ${columnVisibility.ms35 ? '<th style="text-align:center;">MS 3.5</th>' : ''}
@@ -1010,9 +1010,9 @@
                             ${columnVisibility.ev15 ? '<th style="text-align:center;">EV 1.5</th>' : ''}
                             ${columnVisibility.dep05 ? '<th style="text-align:center;">DEP 0.5</th>' : ''}
                             ${columnVisibility.dep15 ? '<th style="text-align:center;">DEP 1.5</th>' : ''}
-                            ${columnVisibility.iykg ? '<th style="text-align:center;">İY KG</th>' : ''}
+                            ${columnVisibility.iykg ? '<th style="text-align:center;">Ä°Y KG</th>' : ''}
                             ${columnVisibility.mskg ? '<th style="text-align:center;">MS KG</th>' : ''}
-                            ${columnVisibility.iys ? '<th style="text-align:center;">İY S</th>' : ''}
+                            ${columnVisibility.iys ? '<th style="text-align:center;">Ä°Y S</th>' : ''}
                             ${columnVisibility.mss ? '<th style="text-align:center;">MS S</th>' : ''}
                             ${columnVisibility.tg ? '<th style="text-align:center; color:#f97316;">TG</th>' : ''}
                         </tr>
@@ -1027,7 +1027,7 @@
                 // Badge Logic
                 const Badge = (text, type) => {
                     let color = '#475569'; // Default Grey
-                    if (text === 'ÜST' || text === 'VAR') color = '#10b981'; // Green
+                    if (text === 'ÃST' || text === 'VAR') color = '#10b981'; // Green
                     if (text === '1') color = '#10b981'; // Green
                     if (text === '2') color = '#ef4444'; // Red
                     if (text === '0') color = '#475569'; // Grey (or Blue?)
@@ -1115,7 +1115,7 @@
                 div.id = 'options-modal';
                 div.style.cssText = `position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#1e293b; border:1px solid rgba(255,255,255,0.1); padding:2rem; border-radius:12px; z-index:1000; box-shadow:0 10px 50px rgba(0,0,0,0.5); min-width:300px;`;
                 div.innerHTML = `
-                    <h3 style="margin-top:0;">Sütun Seçenekleri</h3>
+                    <h3 style="margin-top:0;">SÃ¼tun SeÃ§enekleri</h3>
                     <div id="options-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; margin-bottom:1rem;">
                         <!-- Checkboxes will be injected -->
                     </div>
@@ -1173,31 +1173,31 @@
             container.classList.toggle('sidebar-closed');
 
             if (container.classList.contains('sidebar-closed')) {
-                btn.innerHTML = '›';
+                btn.innerHTML = 'âº';
                 btn.style.left = '10px';
             } else {
-                btn.innerHTML = '‹';
+                btn.innerHTML = 'â¹';
                 btn.style.left = '-15px';
             }
         }
 
         const COLUMN_MAP = {
             6: 'MS 1', 7: 'MS 0', 8: 'MS 2',
-            9: 'İY 1', 10: 'İY 0', 11: 'İY 2',
+            9: 'Ä°Y 1', 10: 'Ä°Y 0', 11: 'Ä°Y 2',
             12: 'KG Var', 13: 'KG Yok',
-            14: 'CŞ 1-X', 15: 'CŞ 1-2', 16: 'CŞ X-2',
-            17: 'İY 1.5 Alt', 18: 'İY 1.5 Üst',
-            19: 'MS 1.5 Alt', 20: 'MS 1.5 Üst',
-            21: 'MS 2.5 Alt', 22: 'MS 2.5 Üst',
-            23: 'MS 3.5 Alt', 24: 'MS 3.5 Üst',
+            14: 'CÅ 1-X', 15: 'CÅ 1-2', 16: 'CÅ X-2',
+            17: 'Ä°Y 1.5 Alt', 18: 'Ä°Y 1.5 Ãst',
+            19: 'MS 1.5 Alt', 20: 'MS 1.5 Ãst',
+            21: 'MS 2.5 Alt', 22: 'MS 2.5 Ãst',
+            23: 'MS 3.5 Alt', 24: 'MS 3.5 Ãst',
             25: 'TG 0-1', 26: 'TG 2-3', 27: 'TG 4-5', 28: 'TG 6+',
             // Extended Mapping for Opening Odds if needed
-            29: 'İY 0.5 Üst', 30: 'İY 0.5 Alt',
-            31: 'İY 1.5 Üst', 32: 'İY 1.5 Alt',
-            33: 'EV 0.5 Üst', 34: 'EV 0.5 Alt',
-            35: 'EV 1.5 Üst', 36: 'EV 1.5 Alt',
-            37: 'DEP 0.5 Üst', 38: 'DEP 0.5 Alt',
-            39: 'DEP 1.5 Üst', 40: 'DEP 1.5 Alt',
+            29: 'Ä°Y 0.5 Ãst', 30: 'Ä°Y 0.5 Alt',
+            31: 'Ä°Y 1.5 Ãst', 32: 'Ä°Y 1.5 Alt',
+            33: 'EV 0.5 Ãst', 34: 'EV 0.5 Alt',
+            35: 'EV 1.5 Ãst', 36: 'EV 1.5 Alt',
+            37: 'DEP 0.5 Ãst', 38: 'DEP 0.5 Alt',
+            39: 'DEP 1.5 Ãst', 40: 'DEP 1.5 Alt',
         };
 
         function showMatchDetailById(id) {
@@ -1217,7 +1217,7 @@
                 for (let i = 0; i <= 100; i++) {
                     const val = match[i];
                     if (val !== undefined && val !== null && val !== '') {
-                        const label = COLUMN_MAP[i] || `Sütun ${i}`;
+                        const label = COLUMN_MAP[i] || `SÃ¼tun ${i}`;
                         const div = document.createElement('div');
                         div.className = 'detail-item';
                         div.innerHTML = `
@@ -1257,7 +1257,7 @@
     <div class="detail-modal" id="match-detail-modal">
         <div class="detail-header">
             <div>
-                <h3 id="detail-title" style="color:white; margin:0; font-size:1.2rem;">Maç Detayı</h3>
+                <h3 id="detail-title" style="color:white; margin:0; font-size:1.2rem;">MaÃ§ DetayÄ±</h3>
                 <div id="detail-subtitle" style="color:#94a3b8; font-size:0.9rem; margin-top:4px;"></div>
             </div>
             <button onclick="toggleDetailModal(false)"

@@ -1,0 +1,17 @@
+Analizinizi yukarıdaki Analiz kısmından yapmaya baÅlayabilirsiniz.' :
+
+                    'Vip almak iiçin yukarıdaki VIP bÃ¶lÃ¼mÃ¼ne gidiniz.';
+
+            } else {
+
+                messageBox.innerHTML = 'LÃ¼tfen Ã¶nce hesap oluÅturup giriÅ yapÄ±n.';
+
+            }
+
+        }
+
+    },
+
+
+
+    /

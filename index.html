@@ -24,7 +24,8 @@
             <nav style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 3rem;">
 
                 <!-- 1. Logo -->
-                <a href="index.html" class="logo"
+                <a href="/"
+                    class="logo"
                     style="margin-right: 0; font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Analiz
                     Pro</a>
 
@@ -37,8 +38,6 @@
 
                 <!-- 3. Right Side Actions -->
                 <div class="nav-right" style="display: flex; align-items: center; gap: 1rem;">
-
-                    <!-- VIP (Removed temporarily) -->
 
                     <!-- Admin Panel -->
                     <a href="admin.html" id="admin-btn" class="btn btn-primary desktop-only"
@@ -112,8 +111,6 @@
                     <li><a href="analysis.html" class="btn btn-outline" style="width:100%;">Filtre</a></li>
                     <li><a href="analysis_select.html" class="btn btn-outline" style="width:100%;">Analiz</a></li>
                     <li><a href="info.html" class="btn btn-outline" style="width:100%;">Bilgilendirme</a></li>
-
-                    <!-- VIP Button (Removed temporarily) -->
 
                     <!-- Data Upload Section (shown when logged in as VIP/Admin) -->
                     <li id="mobile-data-upload" class="data-status-wrapper"
@@ -285,7 +282,6 @@
         </h2>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <!-- Blog Card 1 -->
             <article class="glass-card" style="padding: 1.5rem; transition: transform 0.3s ease;">
                 <div
                     style="background: rgba(59, 130, 246, 0.1); color: var(--primary-color); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">
@@ -295,14 +291,12 @@
                 <p style="color: var(--secondary-color); font-size: 0.95rem; line-height: 1.6;">
                     Futbol maçlarında doğru analiz yapmak için oran değişimlerini ve geçmiş maç istatistiklerini nasıl
                     kullanacağınızı öğrenin.
-                    Başarılı analizler için veri odaklı yaklaşımın önemi.
                 </p>
                 <a href="blog.html?article=1"
                     style="display: inline-block; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Devamını
                     Oku →</a>
             </article>
 
-            <!-- Blog Card 2 -->
             <article class="glass-card" style="padding: 1.5rem; transition: transform 0.3s ease;">
                 <div
                     style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">
@@ -311,14 +305,12 @@
                 <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.25rem;">KG Var/Yok İstatistikleri</h3>
                 <p style="color: var(--secondary-color); font-size: 0.95rem; line-height: 1.6;">
                     Karşılıklı gol var (KG Var) veya yok (KG Yok) seçeneklerinde nelere dikkat edilmeli?
-                    Takımların hücum ve savunma istatistiklerini kullanarak daha isabetli analizler yapın.
                 </p>
                 <a href="blog.html?article=2"
                     style="display: inline-block; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Devamını
                     Oku →</a>
             </article>
 
-            <!-- Blog Card 3 -->
             <article class="glass-card" style="padding: 1.5rem; transition: transform 0.3s ease;">
                 <div
                     style="background: rgba(234, 179, 8, 0.1); color: #eab308; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">
@@ -327,7 +319,6 @@
                 <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.25rem;">Alt/Üst Analiz Stratejileri</h3>
                 <p style="color: var(--secondary-color); font-size: 0.95rem; line-height: 1.6;">
                     2.5 gol altı ve üstü seçeneklerinde etkili stratejiler nelerdir?
-                    Lig bazlı istatistikler ve takım form durumlarının analizi ile doğru veriye ulaşın.
                 </p>
                 <a href="blog.html?article=10"
                     style="display: inline-block; margin-top: 1rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Devamını
@@ -405,19 +396,16 @@
             const statusClosing = document.getElementById('status-closing');
             const statusOpening = document.getElementById('status-opening');
 
-            // Mobile elements
             const mobileLoadClosingBtn = document.getElementById('mobile-load-closing-btn');
             const mobileLoadOpeningBtn = document.getElementById('mobile-load-opening-btn');
             const mobileStatusClosing = document.getElementById('mobile-status-closing');
             const mobileStatusOpening = document.getElementById('mobile-status-opening');
 
-            let uploadType = 'closing'; // Default
+            let uploadType = 'closing';
 
-            // Restore data from IndexedDB on load
             const restoreData = async () => {
                 try {
                     await ExcelLoader.restoreFromIndexedDB();
-
                     if (ExcelLoader.hasClosing()) {
                         const count = ExcelLoader.getClosingCount();
                         const statusHTML = `<span style="color:#10b981;">✅ ${count}</span>`;
@@ -427,7 +415,6 @@
                         if (statusClosing) statusClosing.innerHTML = '-';
                         if (mobileStatusClosing) mobileStatusClosing.innerHTML = '-';
                     }
-
                     if (ExcelLoader.hasOpening()) {
                         const count = ExcelLoader.getOpeningCount();
                         const statusHTML = `<span style="color:#10b981;">✅ ${count}</span>`;
@@ -442,13 +429,11 @@
                 }
             };
 
-            // Only restore data if user is VIP/admin (lazy loading for performance)
             const cachedUser = Auth.getCurrentUser();
             if (cachedUser && (cachedUser.role === 'vip' || cachedUser.role === 'admin')) {
                 restoreData();
             }
 
-            // Handle file selection trigger
             const triggerUpload = (type) => {
                 uploadType = type;
                 fileInput.click();
@@ -459,7 +444,6 @@
             if (mobileLoadClosingBtn) mobileLoadClosingBtn.onclick = () => triggerUpload('closing');
             if (mobileLoadOpeningBtn) mobileLoadOpeningBtn.onclick = () => triggerUpload('opening');
 
-            // File selected
             fileInput.onchange = async () => {
                 const file = fileInput.files[0];
                 if (!file) return;
@@ -467,98 +451,48 @@
                 const statusSpan = uploadType === 'opening' ? statusOpening : statusClosing;
                 const mobileStatusSpan = uploadType === 'opening' ? mobileStatusOpening : mobileStatusClosing;
 
-                // Update status spans (both desktop and mobile)
                 const loadingHTML = '<span style="color:#fbbf24;">⏳</span>';
                 if (statusSpan) statusSpan.innerHTML = loadingHTML;
                 if (mobileStatusSpan) mobileStatusSpan.innerHTML = loadingHTML;
 
-                // Disable all buttons (desktop and mobile)
-                if (loadClosingBtn) {
-                    loadClosingBtn.style.opacity = '0.5';
-                    loadClosingBtn.style.pointerEvents = 'none';
-                }
-                if (loadOpeningBtn) {
-                    loadOpeningBtn.style.opacity = '0.5';
-                    loadOpeningBtn.style.pointerEvents = 'none';
-                }
-                if (mobileLoadClosingBtn) {
-                    mobileLoadClosingBtn.style.opacity = '0.5';
-                    mobileLoadClosingBtn.style.pointerEvents = 'none';
-                }
-                if (mobileLoadOpeningBtn) {
-                    mobileLoadOpeningBtn.style.opacity = '0.5';
-                    mobileLoadOpeningBtn.style.pointerEvents = 'none';
-                }
+                [loadClosingBtn, loadOpeningBtn, mobileLoadClosingBtn, mobileLoadOpeningBtn].forEach(btn => {
+                    if (btn) { btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none'; }
+                });
 
                 try {
                     await ExcelLoader.loadFile(file, uploadType);
-
-                    // Update statuses (both desktop and mobile)
                     if (ExcelLoader.hasClosing()) {
                         const count = ExcelLoader.getClosingCount();
                         const html = `<span style="color:#10b981;">✅ ${count}</span>`;
                         if (statusClosing) statusClosing.innerHTML = html;
                         if (mobileStatusClosing) mobileStatusClosing.innerHTML = html;
-                    } else if (uploadType === 'closing') {
-                        if (statusClosing) statusClosing.innerHTML = '-';
-                        if (mobileStatusClosing) mobileStatusClosing.innerHTML = '-';
                     }
-
                     if (ExcelLoader.hasOpening()) {
                         const count = ExcelLoader.getOpeningCount();
                         const html = `<span style="color:#10b981;">✅ ${count}</span>`;
                         if (statusOpening) statusOpening.innerHTML = html;
                         if (mobileStatusOpening) mobileStatusOpening.innerHTML = html;
-                    } else if (uploadType === 'opening') {
-                        if (statusOpening) statusOpening.innerHTML = '-';
-                        if (mobileStatusOpening) mobileStatusOpening.innerHTML = '-';
                     }
-
-                    console.log(`✅ ${uploadType} verisi yüklendi.`);
-
                 } catch (error) {
                     console.error('Excel yükleme hatası:', error);
                     window.alert('HATA: ' + (error.message || error));
-
                     const errorHTML = '<span style="color:red; font-size:1.2rem;">❌</span>';
                     if (statusSpan) statusSpan.innerHTML = errorHTML;
                     if (mobileStatusSpan) mobileStatusSpan.innerHTML = errorHTML;
                 } finally {
-                    // Re-enable all buttons
-                    if (loadClosingBtn) {
-                        loadClosingBtn.style.opacity = '1';
-                        loadClosingBtn.style.pointerEvents = 'auto';
-                    }
-                    if (loadOpeningBtn) {
-                        loadOpeningBtn.style.opacity = '1';
-                        loadOpeningBtn.style.pointerEvents = 'auto';
-                    }
-                    if (mobileLoadClosingBtn) {
-                        mobileLoadClosingBtn.style.opacity = '1';
-                        mobileLoadClosingBtn.style.pointerEvents = 'auto';
-                    }
-                    if (mobileLoadOpeningBtn) {
-                        mobileLoadOpeningBtn.style.opacity = '1';
-                        mobileLoadOpeningBtn.style.pointerEvents = 'auto';
-                    }
-                    fileInput.value = ''; // Reset input
+                    [loadClosingBtn, loadOpeningBtn, mobileLoadClosingBtn, mobileLoadOpeningBtn].forEach(btn => {
+                        if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+                    });
+                    fileInput.value = '';
                 }
             };
-
-            // Note: Auth state is now handled by auth.js automatically
-            // The dynamic message is updated by Auth.updateUI() in auth.js
         });
 
-        // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
+                    .then(r => console.log('SW registered'))
+                    .catch(e => console.log('SW failed:', e));
             });
         }
     </script>
